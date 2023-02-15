@@ -1,7 +1,303 @@
-<html>
-	<head>
-	</head>
-	<body>
-		Project 1 here
-	</body>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+  <style>
+    body {
+      padding: 100px;
+      width: 1000px;
+      margin: auto;
+      text-align: left;
+      font-weight: 300;
+      font-family: 'Open Sans', sans-serif;
+      color: #121212;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      font-family: 'Source Sans Pro', sans-serif;
+    }
+  </style>
+  <title>CS 184 Rasterizer</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Sans+Pro" rel="stylesheet">
+</head>
+
+
+<body>
+
+  <h1 align="middle">CS 184: Computer Graphics and Imaging, Spring 2023</h1>
+  <h1 align="middle">Project 1: Rasterizer</h1>
+  <h2 align="middle">Yi Mu, Yueheng Zhang</h2>
+
+  <br><br>
+
+  <div>
+
+    <h2 align="middle">Overview</h2>
+    <p>
+
+    </p>
+
+    <h2 align="middle">Section I: Rasterization</h2>
+
+    <h3 align="middle">Part 1: Rasterizing single-color triangles</h3>
+
+    <p>
+      For each middle point of the pixel we calculate three signed triangle areas created by the middle point and three
+      points on the triangle. The formula for the signed area of a triangle can be derived from the cross product of two
+      vectors.
+      Suppose we have point A (ax, ay) and B (bx, by), then the signed area of the parallelogram they form is given by
+      the magnitude of their cross product: |ax * by - ay * bx|.
+    </p>
+    <div align="middle">
+      <code>float L0 = -(x - x0) * (y1 - y0) + (y - y0) * (x1 - x0);</code> <br />
+      <code>float L1 = -(x - x1) * (y2 - y1) + (y - y1) * (x2 - x1);</code> <br />
+      <code>float L2 = -(x - x2) * (y0 - y2) + (y - y2) * (x0 - x2);</code> <br />
+    </div>
+    <p>
+      In code above, the vectors A and B are formed by the edges of the main triangle and the lines connecting (x, y) to
+      the opposite vertices The signed triangles is computed using the formula above, with negative values indicating
+      the point (x, y) is outside the triangle and positive values indicating that it is inside the triangle. For a
+      point lying on an edge of the triangle, we consider it as inside the triangle.
+    </p>
+    <h4>Algorithm Efficiency</h4>
+    <p>
+      To make sure our algorithm is no worse than one that checks each sample within the bounding box of the triangle,
+      we use the bounding box as shown below. Since we are exactly checking all the pixels within the tightest bounding
+      box, the algorithm cannot be worse than one that checks each sample within the bounding box of the triangle.
+    </p>
+    <div align="middle">
+      <code>float x_min = min(x0, min(x1, x2));</code> <br />
+      <code>float x_max = max(x0, max(x1, x2));</code> <br />
+      <code>float y_min = min(y0, min(y1, y2));</code> <br />
+      <code>float y_max = max(y0, max(y1, y2));</code> <br />
+    </div>
+
+    <h3 align="middle">Part 2: Antialiasing by Supersampling</h3>
+
+    <h4>Algorithm</h4>
+    <ol>
+      <li>Iterate each pixel inside the bounding box.</li>
+      <li>Iterate each sampling point inside the pixel</li>
+      <li>
+        If the sampling point is inside or on the edge of the triangle we append the corresponding color on that
+        sampling point to the value col.
+      </li>
+      <li>Divide the col by the number of sampling points to get the average color.</li>
+      <li>Set the pixel color to the average color.</li>
+    </ol>
+
+    <p>
+      Supersampling is useful for antialiasing because it can reduce the aliasing artifacts by sampling the color of
+      multiple points within a pixel and taking the average of the colors. This can reduce the aliasing artifacts such
+      as jaggies and staircases as shown in the figures below.
+    </p>
+
+    <div align="middle">
+      <table style="width:100%">
+        <tr>
+          <td>
+            <img src="images/sample_rate_1.png" align="middle" width="400px" alt="" />
+            <figcaption align="middle">Image without supersampling</figcaption>
+          </td>
+          <td>
+            <img src="images/sample_rate_4.png" align="middle" width="400px" alt="" />
+            <figcaption align="middle">4 samples per pixel</figcaption>
+          </td>
+
+        </tr>
+        <br>
+        <td>
+          <img src="images/sample_rate_16.png" align="middle" width="400px" alt="" />
+          <figcaption align="middle">16 samples per pixel</figcaption>
+        </td>
+      </table>
+    </div>
+
+    <h3 align="middle">Part 3: Transforms</h3>
+    <div align="middle">
+      <table style="width:100%">
+        <td>
+          <img src="images/cubeman_before.jpg" align="middle" width="400px" alt="" />
+          <figcaption align="middle">Original Cubeman</figcaption>
+        </td>
+        <td>
+          <img src="images/cubeman_headless.png" align="middle" width="400px" alt="" />
+          <figcaption align="middle">Headless Cubeman</figcaption>
+        </td>
+      </table>
+
+      <p>
+        We changed the transform(0, -100) to transform(0, 0), so the head was removed. Pretty funny.
+      </p>
+    </div>
+
+    <h2 align="middle">Section II: Sampling</h2>
+
+    <h3 align="middle">Part 4: Barycentric coordinates</h3>
+    <p>
+      Barycentric coordinates are a way to express a point inside a triangle as a weighted sum of the triangle's
+      vertices. A point P inside the triangle ABC can be interpreted as
+      <code>P = alpha * A + beta * B + gamma * C</code>, where <code>alpha + beta + gamma = 1</code>. This is useful for
+      texture mapping because we can use the barycentric coordinates to determine the texture coordinates of a point P
+      inside the triangle. We can then use the texture coordinates to sample the texture and get the color of the point
+      P.
+    </p>
+    <div align="middle">
+      <code>
+        float alpha = ((y1 - y2) * (x - x2) + (x2 - x1) * (y - y2)) / ((y1 - y2) * (x0 - x2) + (x2 - x1) * (y0 - y2));
+      </code>
+      <br />
+      <code>
+        float beta = ((y2 - y0) * (x - x2) + (x0 - x2) * (y - y2)) / ((y1 - y2) * (x0 - x2) + (x2 - x1) * (y0 - y2));
+      </code>
+      <br />
+      <code>
+        float gamma = 1 - alpha - beta;
+      </code>
+    </div>
+    <p>
+      Now we can use the barycentric coordinates to determine the texture coordinates of the point P. We can then color
+      the point P using the texture coordinates.
+    </p>
+    <div align="middle">
+      <code>
+        Color color = alpha * c0 + beta * c1 + gamma * c2;
+      </code>
+    </div>
+    <div align="middle">
+      <img src="images/color_wheel.jpg" align="middle" width="600px" alt="" />
+      <figcaption align="middle">Color Wheel</figcaption>
+    </div>
+
+
+
+    <h3 align="middle">Part 5: "Pixel sampling" for texture mapping</h3>
+    <p>
+      We can use the barycentric coordinates to determine the texture coordinates of the point P. We can then color the
+      point P using the texture coordinates. Texture mapping is done by sampling the texture at certain points and using
+      those samples to compute the color of the
+      pixel.
+    <ul>
+      <li><b>Nearest neighbor sampling:</b> selects the color of the texture at the closest texture element to the
+        sampled
+        point.</li>
+      <li><b>Bilinear sampling:</b> Tasks the average of the colors of the four closest texture elements to the sampled
+        point.</li>
+    </ul>
+    </p>
+
+    <div align="middle">
+      <img src="images/comparison_1_sample.jpg" align="middle" width="800px" alt="" />
+      <figcaption align="middle">Sampling at 1 sample per pixel</figcaption>
+    </div>
+    <div align="middle">
+      <img src="images/comparison_16_samples.jpg" align="middle" width="800px" alt="" />
+      <figcaption align="middle">Sampling at 16 sample per pixel</figcaption>
+    </div>
+
+    <ul>
+      <li>
+        <b>Nearest:</b> This method can produce pixelated and jagged edges, as it simply selects the color of the
+        closest texel to
+        each pixel.
+      </li>
+      <li>
+        <b>Bilinear:</b> This produces a smoother image but it blurs the texture slightly when magnified too much as
+        shown in
+        sampling 1 per pixel, as the averaging the colors of the texels can cause the texture to lose its sharpness.
+      </li>
+    </ul>
+    <p>
+      When the point is on the edge of an object (high frequency) area. For example
+    <div align="middle">
+      <br /><br />
+      (0, 0, 0) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (255, 255, 255)
+      <br /><br /><br /><br />
+      P
+      <br /><br /><br /><br />
+      (0, 0, 0) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (255, 255, 255)
+      <br /><br />
+    </div>
+
+    <ul>
+      <li>Nearest: P = (0, 0, 0) or (255, 255, 255)</li>
+      <li>Bilinear: P = (128, 128, 128)</li>
+    </ul>
+    </p>
+
+    <h3 align="middle">Part 6: "Level sampling" with mipmaps for texture mapping</h3>
+    <p>
+      For shapes and objects that doesn't require full definition rendering on screen, such as distant objects in a
+      3-dimensional scene, we can use Mipmap to save space. Using Mipmaps, we can use make the rendering more efficient
+      and eliminate most of the artifacts caused by aliasing (when high frequencies are under sampled). In level
+      sampling we
+      first calculate which level of the texture mipmap we should use based on the differential elements that basically
+      captures how much screen area a certain texture is using, and use the size (level) based on that. We then sample
+      the
+      texture at the level we calculated and use the color of the sampled point to color the pixel. This method produces
+      a good quality image, as it samples the texture at multiple levels of the mipmap. This method is less expensive
+      than pixel super sampling, as it requires less memory and less computation since the mipmap takes up a constant
+      amount
+      of memory. But for some textures, especially those with perspective that's not parallel to the screen, this method
+      can be suboptimal when compared to pixel super sampling.
+    </p>
+
+    <h4> Describe the tradeoffs between speed, memory usage, and antialiasing power between the three various
+      techniques: pixel sampling, level sampling, or the number of samples per pixel.</h4>
+    <ul>
+      <li>
+        <b>Pixel sampling:</b> this method is the cheapest, as it requires the least memory and the least computation,
+        looping through all the pixels and sampling once per pixel. But it produces a poor quality image, as it produces
+        pixelated and jagged edges.
+      </li>
+      <li>
+        <b>Level sampling:</b> This method produces a good quality image, as it samples the texture at multiple levels
+        of the mipmap. This method is less expensive than pixel super sampling, as it requires less memory and less
+        computation since the mipmap takes up a constant amount of memory. But for some textures, especially those with
+        perspective that's not parallel to the screen, this method can be suboptimal when compared to pixel super
+        sampling.
+      </li>
+      <li>
+        <b>Super sampling:</b> This method produces the best quality image, as it samples the texture at multiple points
+        per pixel. This method is the most expensive, as it requires the most memory and the most computation, as it
+        requires looping through all the pixels and sampling multiple times per pixel.
+      </li>
+    </ul>
+
+    <h4>Some examples of combinations of the sampling methods</h4>
+    <div align="middle">
+      <table style="width:100%">
+        <tr>
+          <td>
+            <img src="images/moon_bilinear_bilinear_16.jpg" align="middle" width="400px" alt="" />
+            <figcaption align="middle">Moon with Bilinear Level and Bilinear Pixel</figcaption>
+          </td>
+          <td>
+            <img src="images/moon_bilinear_nearest_16.jpg" align="middle" width="400px" alt="" />
+            <figcaption align="middle">Moon with Bilinear Level and Nearest Pixel</figcaption>
+          </td>
+
+        </tr>
+        <br>
+        <td>
+          <img src="images/moon_nearest_bilinear_16.jpg" align="middle" width="400px" alt="" />
+          <figcaption align="middle">Moon with Nearest Level and Bilinear Pixel</figcaption>
+        </td>
+        <td>
+          <img src="images/moon_nearest_nearest_16.jpg" align="middle" width="400px" alt="" />
+          <figcaption align="middle">Moon with Nearest Level and Nearest Pixel</figcaption>
+        </td>
+      </table>
+    </div>
+    <div align="middle">
+      <img src="images/moon.png" align="middle" width="800px" alt="" />
+      <figcaption align="middle">Moon Original Image (Taken by Muyi!)</figcaption>
+    </div>
+
+</body>
+
 </html>
