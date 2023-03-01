@@ -1,7 +1,728 @@
-<html>
-	<head>
-	</head>
-	<body>
-		Project 2 here
-	</body>
-</html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Project 2: Mesh Edit</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="e705e181-d3a0-4931-9336-8acace5c6a29" class="page sans"><header><img class="page-cover-image" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/755292587865338506.jpg" style="object-position:center 13.570000000000004%"/><h1 class="page-title">Project 2: Mesh Edit</h1></header><div class="page-body"><p id="d3f32ad2-d04c-495a-9871-6feb37202417" class=""><strong><strong><strong>Yi Mu, Yueheng Zhang</strong></strong></strong></p><nav id="8b2e52f4-2880-4eb2-b1c4-fc6c1c27ae17" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#6ff52dc9-aa88-47f8-a93b-9a935687063a">Overview</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#7efa4186-6b4b-40c1-ab22-a56e934072d7">Section I: Bezier Curves and Surfaces</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#d48fdaac-31e8-47d5-badb-0ea062b8f8f1">Part 1: Bezier Curves with 1D de Casteljau Subdivision</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#a323b5a3-0b2f-4934-9d4b-ce88b526c706">Implementation</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#2beed9bd-6781-41fc-8a4b-7ee1b0d7b55a">Results</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#03163fa9-33cd-41ee-b011-fb715c17544f">Part 2: Bezier Surfaces with Separable 1D de Casteljau</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#4bbb8672-8f9f-4265-950f-283639bdf992">Implementation</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#ffea5785-fa09-419a-8d28-5ed7f17868d7">Results</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#997e3e8b-e223-4ca2-b98d-b777143c5b23">Section II: Triangle Meshes and Half-Edge Data Structure</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#87e8bb2c-71ad-411b-b328-cc81274121bd">Part 3: Area-Weighted Vertex Normals</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#d6458d93-ab62-48a3-93bc-fc8f071a92b9">Implementation</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#6ad60c79-aef9-46af-90e9-daf94b5cc6d7">Results</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#32dc906c-8201-4fe4-934d-a5300810f1bb">Part 4: Edge Flip</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#a718cd01-0e2a-4abf-889a-3f9aa158b5c1">Implementation</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#7d9f8d21-d2e2-4b3b-acfd-92947ad16af8">Debugging</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#204d9b3c-ccb0-4b1b-bed2-0a2dfa8eba4c">Results</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#95c61a9e-ca69-45d9-91f7-90f1246f19b8">Part 5: Edge Split</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#adc27d02-d943-45e4-9d2a-2b7c2660ccdf">Implementation and Debugging</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#f2217831-edee-4b06-ad4f-78c84864d1d9">Resulting Examples</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#125124db-13fe-4092-9a0f-2d99deaf537a">Part 6: Loop Subdivision for Mesh Upsampling</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#bfee6abb-8891-4ddc-a95c-4f2ac582550d">Implementation</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#d107a200-0dc8-40ce-bb3d-c35fa2f7c6d0">Debugging</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#206229e8-5359-4001-b454-b641b90b0eba">Results and Discussion</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#bf166508-cf31-4f9f-8ef0-8ef195e67dc2">Part III: Blender Art </a></div></nav><h1 id="6ff52dc9-aa88-47f8-a93b-9a935687063a" class="">Overview</h1><p id="260e36a7-f7f5-4ea8-a107-b878eb1ebeb7" class="">In this project we will dive into how Bezier Curve works and how to render and manipulate 3D meshes. </p><p id="100e706a-39fe-4ed2-80df-a08188c818c6" class="">The project is divided into two sections. The first section focuses on Bezier curves and surfaces. Part one uses the de Casteljau algorithm to represent Bezier curves through 1D subdivision. The implementation of a simple Lerp function to iteratively evaluate the next step of the Bezier curve is discussed, and results are shown in the form of two animated gifs. Part two extends the de Casteljau algorithm to a 2D surface using separable 1D subdivision. The implementation is simplified by viewing the process as a two-step process, where 2D surfaces are sliced into multiple 1D curves and evaluated using the 1D de Casteljau algorithm. Results are shown in the form of two images.</p><p id="9e8b0397-a177-4641-bc37-d1be903d636a" class="">The second section focuses on triangle meshes and half-edge data structures. Part three discusses area-weighted vertex normals and highlights their importance in computer graphics. The implementation of these normals is shown by iterating through the faces connected to the vertex and collecting all normals of the faces into a vector. The collected normals are then looped over and summed up weighted by their sizes to produce an average normal. Part four describes the implementation of edge flip, which involves re-linking all the assets associated with the flip. The debugging process is also discussed. In part five, edge split is implemented, and the debugging process is also discussed.</p><h1 id="7efa4186-6b4b-40c1-ab22-a56e934072d7" class="">Section I: Bezier Curves and Surfaces</h1><h2 id="d48fdaac-31e8-47d5-badb-0ea062b8f8f1" class="">Part 1: Bezier Curves with 1D de Casteljau Subdivision</h2><p id="a3473aee-da7c-4fe6-962b-e4b9ab7f25d8" class="">In this part, we will explore Bezier curves and their representation through de Casteljau&#x27;s algorithm in 1D subdivision. </p><h3 id="a323b5a3-0b2f-4934-9d4b-ce88b526c706" class="">Implementation</h3><p id="e9144247-63fe-4941-91e9-b0faa5daf137" class="">Since this is only single dimensional, the algorithm is pretty straight-forward. We implemented a simple Lerp function (linear interpolation) to iteratively evaluate the next step of the Bezier curve. </p><pre id="3fd8624b-ef46-445d-ae5b-08ee6bb5c286" class="code"><code>(1 - t) * points[i] + t * points[i + 1]</code></pre><h3 id="2beed9bd-6781-41fc-8a4b-7ee1b0d7b55a" class="">Results</h3><div id="1bb84395-3d8e-4c8f-96d7-4fc4022f496c" class="column-list"><div id="7ec62993-656b-4b67-8f2f-0944e97565d3" style="width:50%" class="column"><figure id="7b03aca4-8ff4-471f-8b91-91d7328e5b31" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/Animation.gif"><img style="width:916px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/Animation.gif"/></a></figure><p id="7d0c9727-75cd-4b50-9397-4530f3e453f2" class="">
+</p></div><div id="e4134816-0bda-4518-92eb-5e069199ab78" style="width:50%" class="column"><figure id="ddba11b5-3a14-4d72-bbc5-b55e6503ba42" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/Animation%201.gif"><img style="width:915px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/Animation%201.gif"/></a></figure><p id="84b06389-8600-48cf-a5a7-84a7b28988b5" class="">
+</p></div></div><h2 id="03163fa9-33cd-41ee-b011-fb715c17544f" class="">Part 2: Bezier Surfaces with Separable 1D de Casteljau</h2><h3 id="4bbb8672-8f9f-4265-950f-283639bdf992" class="">Implementation</h3><p id="ea99e769-7ae6-4ed7-9c37-9725297379f7" class="">Extending the de Casteljau Algorithm to a 2-D surface can be simplified greatly by viewing it as a two step process, where in the first step we slice the 2D surface in to multiple 1D curves to which we apply the 1D de Casteljau algorithm and get the Bezier coordinates. Then we can gather the array of point in the slices and evaluate a point across the slices using another 1D de Casteljau Algorithm, that point would be a point on the 3D Bezier Curve. This is a special case where all the points are quantized and on the exact 3D grid, making slicing really simple and workable. </p><h3 id="ffea5785-fa09-419a-8d28-5ed7f17868d7" class="">Results</h3><div id="99ad26a4-b0e4-4dab-855d-c2cce8ae0587" class="column-list"><div id="6798849a-8762-4b80-93c5-0d8716500384" style="width:50%" class="column"><figure id="53b0a00c-4a9a-4d80-99b6-61b813ed1844" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/397197386497689029.jpg"><img style="width:902px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/397197386497689029.jpg"/></a></figure><p id="91ff4163-3b81-4e4b-8271-a90279f06d88" class="">
+</p></div><div id="edfc2ff9-0e5b-4ae9-a641-fe0ce0f220cb" style="width:50%" class="column"><figure id="2a638339-40a8-438c-8491-9024ab7b8048" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/808008533625484605.jpg"><img style="width:940px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/808008533625484605.jpg"/></a></figure><p id="7aa13a06-7da4-4822-b15b-848df098b5fe" class="">
+</p></div></div><h1 id="997e3e8b-e223-4ca2-b98d-b777143c5b23" class="">Section II: Triangle Meshes and Half-Edge Data Structure</h1><h2 id="87e8bb2c-71ad-411b-b328-cc81274121bd" class="">Part 3: Area-Weighted Vertex Normals</h2><p id="3178980a-84de-4293-a206-0ae97e3a70b5" class="">Area-Weighted Vertex Normals play a crucial role in computer graphics, particularly in the creation of realistic 3D models. These normals are a more accurate representation of the surface geometry of an object, since they take into account the surface area of each polygon in the mesh. This means that they can be used to create more precise lighting and shading effects, resulting in a more lifelike appearance. Additionally, area-weighted vertex normals can be used to smooth out the appearance of rough or jagged edges in a mesh, making it look more polished and professional. </p><h3 id="d6458d93-ab62-48a3-93bc-fc8f071a92b9" class="">Implementation</h3><p id="f37c1a12-2b86-42c4-a962-1d1385ee497c" class="">We simply iterate through the faces connected to the vertex using a Do-While loop and collect all normals of the faces into a vector.</p><pre id="0225805e-52c7-46e6-9e6b-4612aea6732f" class="code"><code>std::vector&lt;Vector3D&gt; normals;
+HalfedgeCIter currentEdge = halfedge();
+FaceCIter currentFace = halfedge()-&gt;face();
+do {
+	normals.push_back(currentFace-&gt;normal());
+	currentEdge = currentEdge-&gt;twin()-&gt;next();
+	currentFace = currentEdge-&gt;face();
+} while (currentFace != halfedge()-&gt;face());</code></pre><p id="342ee9ac-f61c-4308-91d8-abae9665b57f" class="">We then loop over the collected normals and sum them up weighted by their sizes (which information is already contained in the normal vector’s length. </p><pre id="cb4a35a1-bff7-4ec5-8068-044db556320c" class="code"><code>for (int i = 0; i &lt; normals.size(); i++) {
+		avgNormal += normals[i];
+}
+return avgNormal.unit();</code></pre><h3 id="6ad60c79-aef9-46af-90e9-daf94b5cc6d7" class="">Results</h3><div id="12d54a67-bdcd-43e7-8922-4348ecf8ef8d" class="column-list"><div id="d3b7b633-94d6-4455-866e-7f04ecb5f09b" style="width:50%" class="column"><figure id="e13a8c89-7ed5-457a-a843-111f0602292e" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/Untitled.png"><img style="width:664px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/Untitled.png"/></a><figcaption>Default View Without Phong Averaging</figcaption></figure><figure id="7b87b6a5-71fd-4af0-aeba-d267ac968051" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/Untitled%201.png"><img style="width:672px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/Untitled%201.png"/></a><figcaption>Top View Without Phong Averaging</figcaption></figure><p id="06acae79-4956-40cc-a9df-3703bda55469" class="">
+</p></div><div id="cc1f6aad-7614-4c06-830f-9118e801bd86" style="width:50%" class="column"><figure id="6339d648-e1d3-46db-8916-0900b5cd8912" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/Untitled%202.png"><img style="width:749px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/Untitled%202.png"/></a><figcaption>Default View With Phong Averaging</figcaption></figure><figure id="7efee0f8-dc5b-4f7d-8a52-65b83e6cc2ef" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/Untitled%203.png"><img style="width:712px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/Untitled%203.png"/></a><figcaption>Top View With Phong Averaging</figcaption></figure></div></div><h2 id="32dc906c-8201-4fe4-934d-a5300810f1bb" class="">Part 4: Edge Flip</h2><figure id="8a54d680-042f-412c-a74d-644c157c15c1" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/Untitled%204.png"><img style="width:1974px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/Untitled%204.png"/></a></figure><p id="e44216dd-574a-4abb-9f75-aa7db8b0d792" class="">
+</p><h3 id="a718cd01-0e2a-4abf-889a-3f9aa158b5c1" class="">Implementation</h3><p id="1f4d8737-ef65-4d97-a8ce-a78084914da5" class="">We first make a comprehensive list of all available pointers in the structure above to facilitate the flip and the coming debugging session: </p><pre id="c4d29b4a-8446-4963-81e7-296be4e07182" class="code"><code>HalfedgeIter h_bc = e0-&gt;halfedge();
+HalfedgeIter h_cb = e0-&gt;halfedge()-&gt;twin();
+HalfedgeIter h_ca = e0-&gt;halfedge()-&gt;next();
+HalfedgeIter h_ab = e0-&gt;halfedge()-&gt;next()-&gt;next();
+HalfedgeIter h_bd = e0-&gt;halfedge()-&gt;twin()-&gt;next();
+HalfedgeIter h_dc = e0-&gt;halfedge()-&gt;twin()-&gt;next()-&gt;next();
+
+VertexIter v_b = h_bc-&gt;vertex();
+VertexIter v_c = h_cb-&gt;vertex();
+VertexIter v_a = h_ab-&gt;vertex();
+VertexIter v_d = h_dc-&gt;vertex();
+
+FaceIter f_abc = h_bc-&gt;face();
+FaceIter f_bcd = h_cb-&gt;face();</code></pre><p id="8cb1b334-8a01-46cf-8ddd-ee2af5da5681" class="">Where e0 is the edge <code>cb</code> </p><p id="0fb4d19a-847a-4f52-86f2-1fc1620258ce" class="">We then re-link all the assets associated with the flip using the <code>setNeighbors</code> attribute. This step is done to <em><em><em><em><em><em><em>all </em></em></em></em></em></em></em>of the assets to make sure no pointers are left unchecked. </p><h3 id="7d9f8d21-d2e2-4b3b-acfd-92947ad16af8" class="">Debugging</h3><p id="a353d8b2-c60c-4f7c-9ee7-9586e9455bd2" class="">The Debugging Journey has been pretty interesting as we got stuck trying to find a memory leak, but then discovered in this section we can reuse old components and not allocate new ones. </p><h3 id="204d9b3c-ccb0-4b1b-bed2-0a2dfa8eba4c" class="">Results</h3><div id="b15c0b44-bc52-4348-b21a-37ac8a373813" class="column-list"><div id="d9f5e31a-1d2a-4f0b-927b-38f83556c8a2" style="width:50%" class="column"><figure id="b660725e-5d2c-43d7-a418-4551a7f4c38c" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/Untitled%205.png"><img style="width:908px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/Untitled%205.png"/></a></figure><figure id="16e73e5d-6496-442e-89af-93de679b00eb" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/Untitled%206.png"><img style="width:926px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/Untitled%206.png"/></a></figure></div><div id="d1de6ed9-11d0-4333-9ab1-fc8f917566cf" style="width:50%" class="column"><figure id="6426d0b1-e98e-411e-bea3-d35a2a022584" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/Untitled%207.png"><img style="width:906px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/Untitled%207.png"/></a></figure><figure id="a84a8aa7-4049-4e17-a1bb-63483e8e376d" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/Untitled%208.png"><img style="width:929px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/Untitled%208.png"/></a></figure></div></div><h2 id="95c61a9e-ca69-45d9-91f7-90f1246f19b8" class="">Part 5: Edge Split</h2><h3 id="adc27d02-d943-45e4-9d2a-2b7c2660ccdf" class="">Implementation and Debugging</h3><ol type="1" id="148b43d1-5071-4190-9fca-3edd4dc5f818" class="numbered-list" start="1"><li>We get the edge, vertex, halfedge, face of the original triangles. 6 halfedges, 2 faces, 4 vertexes, and 4 edges.<figure id="f17682a0-8bc4-4add-9601-b5d752d33165" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/Untitled%209.png"><img style="width:2641px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/Untitled%209.png"/></a></figure></li></ol><ol type="1" id="94cb1f39-9a8f-45f0-a894-851b245b5d72" class="numbered-list" start="2"><li>We create 6 new halfedges, 1 vertex (middle point), 3 new edges, and 2 faces.<figure id="4218c2fd-1dc1-4f02-b184-20f0488821b0" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/548621056994014616.jpg"><img style="width:1679px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/548621056994014616.jpg"/></a></figure><p id="89712b17-6749-4755-95da-568fa59f2af8" class="">We now have 16 halfedges (each triangle have 4), 5 vertexes (a, b, c, d, m), 8 edges (a-m, b-m, c-m, b-m, a-c, c-d, d-b, b-a), 4 faces as shown above. </p></li></ol><ol type="1" id="b18c24c3-fc01-4ed7-9742-f4189643cf93" class="numbered-list" start="3"><li>set neighbor of each halfedge, set face, set edge. </li></ol><ol type="1" id="de685948-ada4-4c2f-95ad-7fe271ce6e8d" class="numbered-list" start="4"><li>for newly created edge, we set it isNew to true (i.e. a-m, m-d)</li></ol><ol type="1" id="f7288805-28cd-4a4f-883c-faf71478ee7e" class="numbered-list" start="5"><li>set set vertex m isNew to true.</li></ol><p id="9d7a7cc6-3502-4d49-a4de-516d9f0c3fa2" class="">debugging trick: looking through ed. check each edge, face, halfedge, vertex are assigning to the right position. </p><h3 id="f2217831-edee-4b06-ad4f-78c84864d1d9" class="">Resulting Examples</h3><ul id="fd174897-74c7-4cb3-8e96-7249f3a0a14b" class="bulleted-list"><li style="list-style-type:disc"><strong>Screenshots of a mesh before and after some edge splits</strong></li></ul><div id="66541ded-3c6a-4337-90b7-c17b9e9e1fa3" class="column-list"><div id="2107d89d-0d5f-440f-aaee-e7a6a1ca2dc3" style="width:50%" class="column"><figure id="500bac4e-ab72-45b3-ae3b-4880f5e11f00" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%258812.25.09.png"><img style="width:384px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%258812.25.09.png"/></a><figcaption>Before Split</figcaption></figure></div><div id="cc5f8431-e84d-4dfa-9870-15be22c7ee0c" style="width:50%" class="column"><figure id="58e6c321-7572-4be9-bdde-8513b7b16b5b" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%258812.25.37.png"><img style="width:1162px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%258812.25.37.png"/></a><figcaption>After Split</figcaption></figure><p id="dbdb0c2c-7541-47b9-b8a6-c7c49d7fbcf5" class="">
+</p></div></div><ul id="baee4890-4c08-4985-ba46-5bceb5d682c5" class="bulleted-list"><li style="list-style-type:disc"><strong>Screenshots of a mesh before and after a combination of both edge splits and edge flips</strong></li></ul><div id="5cabe94c-a003-489f-aff9-52a324901821" class="column-list"><div id="bf3ca0a7-e9c9-4f3e-a410-c95e2c75ed96" style="width:50%" class="column"><figure id="9957ead0-5904-47d9-957c-8b2cbee7337f" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%258812.28.35.png"><img style="width:1220px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%258812.28.35.png"/></a><figcaption>Before Flip</figcaption></figure></div><div id="1a9c581f-7228-4f4c-bbc4-09bc0b18c1c1" style="width:50%" class="column"><figure id="b8e7124f-f034-46b8-8132-8dcb65d7c84d" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%258812.28.56.png"><img style="width:1222px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%258812.28.56.png"/></a><figcaption>After Flip</figcaption></figure><p id="d411ea30-c2b2-42bf-84bd-015895ea5d10" class="">
+</p></div></div><ul id="3db8e89b-782a-4235-9cbd-c80aa14cf7a0" class="bulleted-list"><li style="list-style-type:disc"><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>Random Operation Combinations on the Mesh</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></li></ul><figure id="4be62afc-5303-411b-b650-87ad63282f27" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%258812.26.59.png"><img style="width:1240px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%258812.26.59.png"/></a></figure><h2 id="125124db-13fe-4092-9a0f-2d99deaf537a" class="">Part 6: Loop Subdivision for Mesh Upsampling</h2><h3 id="bfee6abb-8891-4ddc-a95c-4f2ac582550d" class="">Implementation</h3><ol type="1" id="c86989ab-9aee-4242-a0e9-5461fe3de5cf" class="numbered-list" start="1"><li>Compute new positions for all of the vertices in the input mesh using the Loop subdivision rule, and store them in Vertex::newPosition. Additionally, mark each vertex isNew to false.</li></ol><ol type="1" id="c2cee512-1601-46b5-9ac3-4ca52244c861" class="numbered-list" start="2"><li>Compute the updated vertex positions associated with edges, and store it in Edge::newPosition. <p id="3a28e50e-b1a6-4d69-8ca1-8a7a6c355344" class=""><code>(1 - n * u) * original_position + u * original_neighbor_position_sum</code></p><p id="f45055e4-fc52-4d67-a2ec-7c13242b77c5" class="">We use the above formula to calculate the newPosition</p><figure id="50253a3d-20a4-4de7-8969-60973c88cfb7" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25884.17.40.png"><img style="width:956px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25884.17.40.png"/></a></figure></li></ol><ol type="1" id="487f7be2-2f25-4b4f-80dd-2a09d8b7d4f3" class="numbered-list" start="3"><li>Split every edge in the original mesh </li></ol><ol type="1" id="336c711d-395e-49b6-b35c-2239f47c59aa" class="numbered-list" start="4"><li>Flip any new edge that connects an old and new vertex.</li></ol><ol type="1" id="2c6127da-df54-424f-930f-76845fa512aa" class="numbered-list" start="5"><li>Copy the new vertex positions into final Vertex::position.</li></ol><h3 id="d107a200-0dc8-40ce-bb3d-c35fa2f7c6d0" class="">Debugging</h3><p id="b559e400-e3e8-4f87-a549-f72038bf9fc1" class="">We created this interesting artifact during our debugging journey:</p><figure id="be1578b7-775f-4a07-98fd-31c376b5147e" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/WechatIMG2507.jpeg"><img style="width:1550px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/WechatIMG2507.jpeg"/></a><figcaption>the picture above generated when we wrongly set data type of u into int. </figcaption></figure><h3 id="206229e8-5359-4001-b454-b641b90b0eba" class="">Results and Discussion</h3><blockquote id="05abda51-f05a-4ba9-8487-aa7f27af8365" class="">Take some notes, as well as some screenshots, of your observations on how meshes behave after loop subdivision. What happens to sharp corners and edges? Can you reduce this effect by pre-splitting some edges?</blockquote><div id="f456e075-7605-4328-af54-79df5483f5e9" class="column-list"><div id="360d430f-0a80-42d1-8e65-8dd66cac4c17" style="width:50%" class="column"><figure id="f524f86a-7f4f-4b7d-8f45-7147819b4876" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25884.21.39.png"><img style="width:1338px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25884.21.39.png"/></a><figcaption>original pic</figcaption></figure><figure id="ed375401-2f67-4e66-978e-0f36623c8a57" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25884.21.58.png"><img style="width:1186px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25884.21.58.png"/></a><figcaption>L * 1</figcaption></figure><figure id="74c69782-8ee2-479b-9920-6569e17e9caa" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25884.40.11.png"><img style="width:990px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25884.40.11.png"/></a><figcaption>L * 1 with split preprocess</figcaption></figure></div><div id="957a84c5-a9c2-401d-8319-72a4c2780b46" style="width:50%" class="column"><p id="562f21a1-574f-495f-856c-2dd0cc2659c7" class="">
+</p><p id="b94e6ad6-1b58-49eb-ac85-d33d300d7ea0" class="">
+</p><p id="2705ac55-abd3-4231-9779-49d4df3c7e58" class="">
+</p><p id="26012fe5-ec58-447f-9817-7b968f6d7fe8" class="">
+</p><p id="a8a3a29b-d745-47d8-96bf-b83104dde031" class="">
+</p><figure id="2ccc2881-4160-4936-9a37-428b2bd25ed7" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25884.22.13.png"><img style="width:1112px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25884.22.13.png"/></a><figcaption>L * 2</figcaption></figure><figure id="2cff9012-07ec-43ed-be89-819e979f1ffe" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25884.41.19.png"><img style="width:1020px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25884.41.19.png"/></a><figcaption>L * 2 with preprocess</figcaption></figure><p id="d26606af-72e6-4820-8a22-d0cbae9e653d" class="">
+</p><p id="8bcb0c2f-999b-43e9-b05c-ae0a356f1706" class="">
+</p></div></div><hr id="0ae70b88-5a76-4ed8-b0b8-0fded827f3d2"/><div id="20a576ca-3c01-4277-abe3-44509293aa71" class="column-list"><div id="0441506c-a90d-4303-86aa-24ed97b17cf9" style="width:50%" class="column"><p id="7c0c3eec-e64b-4685-a6e0-abc9de2f1a69" class="">
+</p><p id="30b3ce44-6750-4c7a-ba6e-890a43a1326e" class="">
+</p><p id="1397fff4-0b78-49df-b82b-256ac4ce617b" class="">
+</p><figure id="f0226974-4f05-4873-95a8-38e81eced8a8" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25884.23.01.png"><img style="width:1260px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25884.23.01.png"/></a><figcaption>original picture</figcaption></figure></div><div id="93fb7736-944d-4544-8c7c-fbfeb5d9af77" style="width:50%" class="column"><figure id="444cd83d-4928-4935-94d6-cdb1b1060cea" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25884.23.23.png"><img style="width:1230px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25884.23.23.png"/></a><figcaption>L * 1</figcaption></figure><figure id="e879f2c7-009c-4abf-b025-977566e9b6d6" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25884.23.47.png"><img style="width:1202px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25884.23.47.png"/></a><figcaption>L * 2</figcaption></figure><p id="75e684b0-3bb2-473a-ae6b-e812fd0160f2" class="">
+</p></div></div><p id="dc55bfb0-5755-4106-9854-abbf0addbf1d" class="">
+</p><p id="f00040bd-bbaf-46e0-a361-190bc53480f8" class="">As we can see, loop subdivision makes the surface much smoother. This is achieved by recursively dividing each face of the mesh into four smaller faces, and moving the vertices to a weighted average of their neighbors. This process is repeated a number of times, resulting in a much denser mesh with a smoother surface.</p><p id="ef031b19-0ebf-4b76-bc24-b2fc646074eb" class="">However, we can not keep any sharp corners and edges unless we define them as boundary edges. Pre-splitting the edges would not help either as seen below. This is because in absence of boundary, all edge will be averaged out thus no sharpness will remain. Furthermore pre-splitting would maybe yield an even smoother image because there are more triangles in the mesh to begin with. </p><div id="65ef18ef-4bfd-4767-8a81-96bc3e96363b" class="column-list"><div id="0b78fb12-ce97-4953-81ab-37fdc802b7b3" style="width:50%" class="column"><figure id="e7c13e84-9d65-42d3-807d-e39413b17d13" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25887.31.29.png"><img style="width:1310px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25887.31.29.png"/></a><figcaption>pre split</figcaption></figure><p id="e033d604-974d-4e15-81fa-cc118f1e574b" class="">
+</p><figure id="ae1eb904-af29-4fcd-987b-43b1ff681507" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25887.32.10.png"><img style="width:1146px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25887.32.10.png"/></a><figcaption>pre split L * 2</figcaption></figure></div><div id="4ec74685-4c02-479b-9829-8f37d6f35e7e" style="width:50%" class="column"><figure id="d01194d3-7730-4647-9cdb-548ee3c1bef0" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25887.31.46.png"><img style="width:1158px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25887.31.46.png"/></a><figcaption>pre split L * 1</figcaption></figure><p id="69b64ec4-34c6-4ee0-8a08-f00ba00c04a3" class="">
+</p><figure id="d637bcda-664f-4351-bf7b-8b7a35116438" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25887.32.18.png"><img style="width:1086px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25887.32.18.png"/></a><figcaption>pre split L * 3</figcaption></figure></div></div><p id="e35619dc-1777-4237-9277-054669fec9d6" class="">As seen above, the edges are still very smooth. There does seem to have a better and more pronounced hexagonal hole in the middle, this may be due to the fact that the inner side is now split more symmetrically than before, leading to some good geometries. </p><p id="5eb8dfde-1e47-48da-9200-8dad7f7a60cb" class="">
+</p><blockquote id="481b6ff3-a907-4287-929b-fd99c99a8865" class="">Load <code>dae/cube.dae</code>. Perform several iterations of loop subdivision on the cube. Notice that the cube becomes slightly asymmetric after repeated subdivisions. Can you pre-process the cube with edge flips and splits so that the cube subdivides symmetrically? Document these effects and explain why they occur. Also explain how your pre-processing helps alleviate the effects.</blockquote><p id="b175ed61-ab5e-42d0-b395-be66f23d74eb" class="">
+</p><ul id="13f034ee-cb2b-4ec1-8263-d4a5e9b1bc3a" class="bulleted-list"><li style="list-style-type:disc"><strong>Cube Without pre-processing</strong></li></ul><p id="179d19b5-e591-491e-972a-6b6a4e6fa36d" class="">As we can see below the original cube with the diagonal mesh yields an asymmetric blob when conducting loop-subdivision. This is because in each subdivision, the geometry of the diagonals are averaged and rounded, thus if the original mesh is asymmetric the resulting one would be asymmetric as well. </p><p id="b1d90a6a-23e3-4a0d-b37a-7f7eadff608d" class="">
+</p><div id="83129476-22e1-4f7c-a232-dcb40b9ad967" class="column-list"><div id="67c91dfc-b677-4ec7-b1dc-c484eeaf4025" style="width:50%" class="column"><figure id="4e8e6a0a-f6e6-40fe-85da-5bdc603f89e4" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25884.35.49.png"><img style="width:978px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25884.35.49.png"/></a><figcaption>original picture</figcaption></figure><figure id="cfdd081a-6ebe-4470-b7a3-2b068935de6a" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25887.16.00.png"><img style="width:868px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25887.16.00.png"/></a><figcaption>L * 2</figcaption></figure><figure id="1dcf27e0-0829-43b7-9a62-a342eb0215b3" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/Untitled%2010.png"><img style="width:788px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/Untitled%2010.png"/></a><figcaption>L * 4</figcaption></figure></div><div id="978c772d-2297-411e-9dea-e6944185c6d1" style="width:50%" class="column"><p id="da3bdb4f-d5aa-4841-80f4-b562fff12d69" class="">
+</p><p id="24d3e747-8f74-43a7-a70e-83e48703e33b" class="">
+</p><p id="390139f0-4515-4057-82c3-d0fc33231a71" class="">
+</p><p id="bcf3822b-92ce-4a50-aa9f-2863cd9ed72f" class="">
+</p><p id="a7f5255b-2102-43bd-8ae5-fc3400eee946" class="">
+</p><p id="341a107f-a306-4797-a61f-3ffcfe725e4b" class="">
+</p><figure id="08f090e0-d0de-4d78-a320-0f7c64aebae2" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/Untitled%2011.png"><img style="width:1030px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/Untitled%2011.png"/></a><figcaption>L * 1</figcaption></figure><figure id="191d3fca-f512-4634-8193-ff53d52b0e79" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25887.17.11.png"><img style="width:788px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25887.17.11.png"/></a><figcaption>L * 3</figcaption></figure></div></div><ul id="f9b2a37f-92e3-44a5-b5cb-05f5b5ece87a" class="bulleted-list"><li style="list-style-type:disc"><strong><strong><strong><strong>Preprocessing the Cube (Making the mesh symmetric)</strong></strong></strong></strong></li></ul><p id="2d986e19-8f93-4154-b196-ab5f60e16ab6" class="">Pre-processing the cube by flipping and splitting edges can remove the asymmetry that occurs during loop subdivision. By making the mesh more symmetric through pre-processing, we achieve a more uniform subdivision. In order for the preprocess to work as expected, we need to split the diagonal edge on each face of the cube, thus creating four symmetric triangles on each side. </p><div id="dfaf5095-194a-4c60-abe8-08ad6c7ca52b" class="column-list"><div id="c7053a87-2d1b-46eb-bdb8-bd23dee36b8e" style="width:50%" class="column"><figure id="c31b4151-5e6b-49be-b036-9796c0d4fc7c" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25887.20.40.png"><img style="width:956px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25887.20.40.png"/></a><figcaption>Cube with Edge Split Preprocess</figcaption></figure><figure id="1bc8d251-0c6a-4a19-bd00-2cc2402288b2" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25887.21.20.png"><img style="width:918px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25887.21.20.png"/></a><figcaption>L * 2</figcaption></figure><figure id="d734162c-f66a-416b-bcf9-84685a8cdde2" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25887.21.44.png"><img style="width:852px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25887.21.44.png"/></a><figcaption>L * 4</figcaption></figure></div><div id="d5248da6-3240-4622-ab40-fdcd4058bc8b" style="width:50%" class="column"><p id="4db9d777-01ff-45b8-836b-38c6c905e7cd" class="">
+</p><p id="bea7141a-c492-42ac-8275-e0f6cf7d6ef9" class="">
+</p><p id="3de7341b-4c4c-407b-9058-342dde615b1d" class="">
+</p><p id="650df56b-9860-4cdb-82e6-13f149e5f9d4" class="">
+</p><p id="8d9db0cf-318d-40b3-b657-35d0cb61fedd" class="">
+</p><figure id="87c0c956-d997-45c8-8d21-6aad439d5315" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25887.21.06.png"><img style="width:928px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25887.21.06.png"/></a><figcaption>L * 1</figcaption></figure><figure id="73738256-1985-4d34-abb8-52df6533899f" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25887.21.33.png"><img style="width:892px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25887.21.33.png"/></a><figcaption>L * 3</figcaption></figure><figure id="a23394a3-2119-41aa-8e2c-18c718d120c0" class="image"><a href="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25887.22.31.png"><img style="width:938px" src="Project%202%20Mesh%20Edit%20e705e181d3a0493193368acace5c6a29/%25E6%2588%25AA%25E5%25B1%258F2023-02-28_%25E4%25B8%258B%25E5%258D%25887.22.31.png"/></a><figcaption>L * 4 from another angle</figcaption></figure></div></div><h1 id="bf166508-cf31-4f9f-8ef0-8ef195e67dc2" class="">Part III: Blender Art </h1><p id="72fcaa6e-3058-4048-9e64-02ff605aa7a7" class="">TBD</p></div></article></body></html>
