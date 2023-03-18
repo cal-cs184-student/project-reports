@@ -1,7 +1,711 @@
-<html>
-	<head>
-	</head>
-	<body>
-		Project 3-1 here
-	</body>
-</html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Project 3-1: Path Tracer</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="5ecbc244-d973-46bf-87a0-14a2ae6edd0a" class="page sans"><header><img class="page-cover-image" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/868973166375894953.png" style="object-position:center 82.2%"/><h1 class="page-title">Project 3-1: Path Tracer</h1></header><div class="page-body"><p id="b53f1c02-978e-459a-b5fe-7f818fce8872" class=""><strong><strong><strong>Yi Mu, Yueheng Zhang</strong></strong></strong></p><nav id="55ef6b11-4aa2-4f11-94c7-055555adfabc" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#61c873bb-429c-464a-8ab8-ca96b6fb82d1">Overview</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#a0b1759c-d6cb-4ea9-9080-1fc345c7209b">Part 1: Ray Generation and Scene Intersection</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#35ca1f22-39b3-476f-a26b-647f006c08fd">Implementation</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#86d6b645-0664-4018-ae5d-16ea1e4431a5">Results</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#aa20dbc0-6b65-4e39-9d88-b6132b4378ba">Part 2: Bounding Volume Hierarchy</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#9999bb7c-1250-435d-8242-2f262822c4d0">Implementation</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#c90d6a56-dec5-46ff-95ed-262829e30072">Results</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#6312afe8-2019-4da2-9cea-76e0f9ab810e">Part 3: Direct Illumination</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#af75f6b3-1bb3-42b8-8e87-196a9ebf0184">Implementation</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#f3c81807-226c-4462-bcec-786a4cd5b6ca">Results</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#aca8f9e3-356c-4ad4-b74d-840be48492dd">Part 4: Global Illumination</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#ba7d4bdb-aa02-4d3a-a084-fcd769c788fd">Implementation</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#8ecfa0b4-f80f-4771-a3dd-a35f20813edf">Results</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#04df0f16-8e8b-4245-a177-b83e5d67151f">Part 5: Adaptive Sampling</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#e771c103-0b37-474c-a72d-e71da62f22cf">Implementation</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#af369ff0-c499-460c-b2eb-8e64b8ad4d12">Results</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#e9791f8f-f251-4ed2-86d1-dd66ddbb72b2">Collaboration Experience</a></div></nav><h2 id="61c873bb-429c-464a-8ab8-ca96b6fb82d1" class="">Overview</h2><p id="dc57fb8e-e84c-44bc-88c3-e4009b33c669" class="">For our project, we built a renderer that uses a pathtracing algorithm to render scenes with physical lighting. It was quite a journey! We started by creating simple functions that generate rays and check for ray-object primitive intersections. Then we took it up a notch and implemented a bounding volume hierarchy to speed up and optimize ray-surface intersections processing. With this, we were able to render scenes with hundreds of thousands of triangles in under five seconds! Before, it would take us minutes or even hours to render such scenes.</p><p id="8fcab1aa-85f8-4316-a698-a44a9360b66e" class="">Next, we added lighting calculations in the scene, including direct illumination (using hemisphere and importance sampling) and global illumination. To estimate the direct lighting, we employed Monte Carlo integration. And we could render beautiful scenes with both direct and indirect lighting. To make our renderer more efficient, we implemented adaptive sampling. This helped us optimize the samples taken per pixel by checking if the pixel had already converged, and stopping sampling for that pixel if it had.</p><p id="49644165-4018-446a-983b-bea0b174ac06" class="">Through this project, we gained a much better understanding of how path tracing works and the various methods we could use to optimize it without sacrificing too much resolution in the final image.</p><h2 id="a0b1759c-d6cb-4ea9-9080-1fc345c7209b" class="">Part 1: Ray Generation and Scene Intersection</h2><h3 id="35ca1f22-39b3-476f-a26b-647f006c08fd" class="">Implementation</h3><p id="5ec05363-18a7-4a19-a669-4e4becd8a804" class=""><strong>Ray generation:</strong>
+The first step in the rendering pipeline is to generate rays. Rays are used to determine the color of each pixel in the image. To generate a ray for a given pixel, we need to know the camera&#x27;s position, orientation, and field of view.  For each pixel, we cast a ray from the camera&#x27;s position through the pixel&#x27;s center and into the scene. This process is repeated for every pixel in the image plane. In this part we simply use a linear transformation to calculate the mapping between image space and camera space. </p><pre id="d1a4ae50-6bb8-47f2-98b8-a1001e1ca5ba" class="code"><code>double upper_right_x = tan(.5 * radians(hFov));
+double upper_right_y = tan(.5 * radians(vFov));
+double x_prime = x * (upper_right_x * 2) - upper_right_x;
+double y_prime = y * (upper_right_y * 2) - upper_right_y;
+Vector3D dir = c2w * Vector3D(x_prime, y_prime, -1.0);</code></pre><p id="1346daf6-17d5-4bb2-8851-a05efc573479" class=""><strong>Primitive intersection:</strong>
+Once rays have been generated, we need to determine which objects in the scene intersect with each ray. In this step, we test each ray for intersection with the objects in the scene by comparing the ray to each object&#x27;s geometry. The geometry can take many forms, including triangles, spheres, or other complex shapes. For each object, we check if the ray intersects with the object&#x27;s geometry. If there is an intersection, we calculate the point of intersection and record it. The primitives we implemented this section includes the following: </p><ul id="c6ceaa63-63a6-45c1-b956-ccec2c6edeaa" class="bulleted-list"><li style="list-style-type:disc">Triangle: we utilized Moller-Trumbore Algorithm to determine whether the ray intersects a certain triangle and where the ray intersects it. We first computed the vector coordinates of the vertices and edges of the triangle. Then we calculate the normal vector of the triangle, put all into a matrix and get its determinant. If the det is zero then the span is a 2-dimensional plane, and thus the ray is parallel to the triangle plane, therefore no intersection. If det is non-zero, however, we can compute the barycentric coordinates of the point of intersection, and check whether the point is within the triangle. If it is then we update the intersection point and return a True for collision.</li></ul><ul id="d4501af8-acc2-4ad2-86eb-b0e36e8d43ae" class="bulleted-list"><li style="list-style-type:disc">Sphere: we used a simple quadratic formula to solve for the two intersection points of the ray with the sphere. </li></ul><h3 id="86d6b645-0664-4018-ae5d-16ea1e4431a5" class="">Results</h3><div id="8dc751d6-406e-4869-b21b-091f745a0a6b" class="column-list"><div id="c2f7dd7f-b66f-49b4-a2b0-00ea33a83b4a" style="width:50%" class="column"><figure id="ae7b07eb-3e2d-4e39-a87a-5c1e6a1ad8cc" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/CBspheres.png"><img style="width:800px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/CBspheres.png"/></a></figure><figure id="bebe82fc-510c-4a65-9b0e-68ef624a9d2b" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/CBdragon.png"><img style="width:800px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/CBdragon.png"/></a></figure><p id="07f5a84d-190c-47b4-9bf3-628ee6bf30c9" class="">
+</p></div><div id="7cb325f5-6eeb-470c-9af9-e0fbd9d15cd6" style="width:50%" class="column"><figure id="7be16252-fd8b-455e-9915-4aba8597eef5" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/CBcoil.png"><img style="width:800px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/CBcoil.png"/></a></figure><figure id="3d467d32-6985-4488-9dae-27631a3c903c" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/CBlucy.png"><img style="width:800px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/CBlucy.png"/></a></figure><p id="9b0f40ab-d2f7-45a1-86c6-d9f2cd2395bc" class="">
+</p></div></div><h2 id="aa20dbc0-6b65-4e39-9d88-b6132b4378ba" class="">Part 2: Bounding Volume Hierarchy</h2><h3 id="9999bb7c-1250-435d-8242-2f262822c4d0" class="">Implementation</h3><p id="d86f0f33-4d2a-4a8c-b880-a3bc321d4849" class=""><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>BVH Construction: </strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p><ol type="1" id="620f1f4e-a798-4152-81cb-bb194cbdd0cb" class="numbered-list" start="1"><li>We started with expanding a bounding box around the entire node (all primitives)</li></ol><ol type="1" id="1b896398-e34c-44e0-bc47-e4a616f3bad1" class="numbered-list" start="2"><li>We then utilized a simple heuristic of choosing the longest axis to split (X, Y, or Z), we used <code>bbox.extent</code> to get the dimensions of the bounding box and split on the longest axis.</li></ol><ol type="1" id="b70f0e56-1f55-41ab-9acb-a6050ae51748" class="numbered-list" start="3"><li>We then utilized another simple heuristic of choosing the middle element of the primitives as the splitting point. This heuristic would make the BVH tree more bushy and thus more efficient. We achieved this by using an in-place sorting over the centroid of all primitives in the node, then taking the middle element of <code>start + (end - start) / 2</code><pre id="652af6d5-3265-40b7-a5d9-2405494a0c8f" class="code"><code>std::sort(start, end, [axis](Primitive* a, Primitive* b)
+				{ return a-&gt;get_bbox().centroid()[axis] &lt; b-&gt;get_bbox().centroid()[axis]; });</code></pre></li></ol><ol type="1" id="3a815263-67e3-4534-866c-476c0a808d6d" class="numbered-list" start="4"><li>Partition the scene: Divide the node into two sub-nodes based on the splitting point</li></ol><ol type="1" id="997e2b12-5c43-4f2e-a704-74c5ba17b4be" class="numbered-list" start="5"><li>Recursively apply steps 2-4 to each sub-scene until the leaf node is reached: the node contains less number of primitives than <code>max_leaf_size</code></li></ol><p id="5a3398fa-3a2e-49da-a776-f6678d4a16d1" class="">
+</p><h3 id="c90d6a56-dec5-46ff-95ed-262829e30072" class="">Results</h3><p id="5bcf0895-db6e-4f41-90df-98d3cc46a0f6" class=""><strong><strong><strong><strong><strong><strong><strong><strong><strong>Examples of large meshes</strong></strong></strong></strong></strong></strong></strong></strong></strong></p><div id="ddd8479b-168c-4f21-a047-5d842c8c1e8d" class="column-list"><div id="0bb23e2d-34e8-4dd1-bf77-20a0d23c9004" style="width:50%" class="column"><figure id="87c41a34-4524-40c6-8ada-8d6ed8555188" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/maxplanck.png"><img style="width:800px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/maxplanck.png"/></a><figcaption>Max Plank</figcaption></figure><p id="a5975faf-c00b-4433-bfd1-6a183026c937" class="">
+</p></div><div id="163515e8-1764-42b7-91f7-b62aaefb3cc9" style="width:50%" class="column"><figure id="ce0457a0-d373-4182-b2db-c8b66032a6a2" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/peter.png"><img style="width:800px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/peter.png"/></a><figcaption>Peter</figcaption></figure><p id="59872c4b-3315-4d6a-aca1-1d355ae75696" class="">
+</p></div></div><p id="9a8bf505-77b9-4fe9-8045-f471657a0280" class=""><strong>Complexity comparison: </strong></p><div id="7740a89e-84fa-4843-b086-5304e756b52d" class="column-list"><div id="bd5ea074-09ee-4346-891a-320ddfe3df9d" style="width:50%" class="column"><figure id="39c567cd-39af-4c5b-8f9e-5852fff8e46e" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/%25E6%2588%25AA%25E5%25B1%258F2023-03-17_%25E4%25B8%258B%25E5%258D%25885.20.18.png"><img style="width:1870px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/%25E6%2588%25AA%25E5%25B1%258F2023-03-17_%25E4%25B8%258B%25E5%258D%25885.20.18.png"/></a><figcaption>BVH Accelerated </figcaption></figure></div><div id="2f1f498a-2dc3-48bb-8316-dbabae018924" style="width:50%" class="column"><figure id="1457e1a5-58a4-4b7e-bf5b-b9a2829e173c" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/%25E6%2588%25AA%25E5%25B1%258F2023-03-17_%25E4%25B8%258B%25E5%258D%25885.19.48.png"><img style="width:1934px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/%25E6%2588%25AA%25E5%25B1%258F2023-03-17_%25E4%25B8%258B%25E5%258D%25885.19.48.png"/></a><figcaption>Original</figcaption></figure></div></div><p id="7b58bcd8-67a7-49be-8310-34109f969a6e" class="">As we can see the original takes 6 seconds to complete whereas our accelerated structure only takes 0.0391 seconds! A whopping 150x increase in efficiency. </p><h2 id="6312afe8-2019-4da2-9cea-76e0f9ab810e" class="">Part 3: Direct Illumination</h2><h3 id="af75f6b3-1bb3-42b8-8e87-196a9ebf0184" class="">Implementation</h3><p id="dcf5f9c2-c094-4e25-808a-dd3b86cf2ef4" class=""><strong>hemisphere: </strong></p><ol type="1" id="afe56578-f325-4e18-9c09-1fc7c957757a" class="numbered-list" start="1"><li>For each sample we multiply the `o2w` matrix to get the <code>w_in</code> point and use <code>Ray(hit_p, w_in)</code> to generate the ray. </li></ol><ol type="1" id="e93c5128-f23d-4a95-8345-b332b05cea70" class="numbered-list" start="2"><li>If the given ray intersects with the aggregate, we then get the emission of the Intersection and calculate the reflection equation to get the estimation of lighting .</li></ol><ol type="1" id="5d2a8755-b42e-4f8a-828e-b42eaeaa4d40" class="numbered-list" start="3"><li>Note: <code>wi</code> is in Object space, and <code>w_in</code> is in World space and we need Object space during the calculation of the reflection equation.</li></ol><p id="63053902-46c2-408a-bdf3-c85f88de2d62" class=""><strong>importance:</strong></p><ol type="1" id="e4b462ee-6fbc-411f-8d77-58cbd63bf6e4" class="numbered-list" start="1"><li>for each light we check if the light is a point light source.<ol type="a" id="42b2463b-004f-4d75-ac9c-c7c44cf50606" class="numbered-list" start="1"><li>If light is a point light source: get the sample, <code>w_in</code>(World space), <code>distToLight</code>, <code>pdf</code>, calculate the <code>wi</code> by calculating <code>w2o * w_in</code> , and use <code>Ray(hit_p, w_in)</code> to generate the ray. We then set the <code>ray.max_t</code> and <code>ray.min_t</code> to <code>distToLight</code>, and <code>EPS_F</code> If the given ray not intersects with the aggregate, we then calculate the reflection equation to get the estimation of lighting.</li></ol><ol type="a" id="0e728a3f-82a2-4527-960a-e8a82d872f7a" class="numbered-list" start="2"><li>If the light source not a point light, we need to repeat the aforementioned steps for <code>ns_area_light</code> times and calculate the mean of the values. </li></ol></li></ol><h3 id="f3c81807-226c-4462-bcec-786a4cd5b6ca" class="">Results</h3><div id="8dfeabd5-9f87-491b-b078-a4d2923faf38" class="column-list"><div id="763f27a7-849b-47e8-b51c-81d88302028c" style="width:50%" class="column"><figure id="3b37516c-0a59-42ce-bf1e-469ef4a65c13" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/CBbunny_H_16_8.png"><img style="width:480px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/CBbunny_H_16_8.png"/></a><figcaption>CBunny_H_16_8</figcaption></figure><figure id="d519c7fb-ccd6-4c8f-be4d-538109f3be65" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/CBbunny_H_64_32.png"><img style="width:480px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/CBbunny_H_64_32.png"/></a><figcaption>CBunny_H_64_32</figcaption></figure></div><div id="762238aa-cfa2-495b-8c6c-7225bfc225a3" style="width:50%" class="column"><figure id="69e1afef-b07c-47a6-aaeb-a9acefba4f51" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/dragon_64_32.png"><img style="width:480px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/dragon_64_32.png"/></a><figcaption>dragon_64_32</figcaption></figure><p id="7548dabb-9faf-4b96-873f-175e74d54832" class="">
+</p><figure id="227bf581-cbef-4ed4-a9f1-4831d59474d8" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/bunny_64_32.png"><img style="width:480px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/bunny_64_32.png"/></a><figcaption>bunny_64_32</figcaption></figure></div></div><hr id="6d5cb241-8432-4203-93ca-0cab0ee20b19"/><div id="cb0f47e4-1c2b-4419-892f-4b5f3f1918e6" class="column-list"><div id="7e300903-b65b-45a3-bd75-d6fe78906db6" style="width:50%" class="column"><figure id="25283e26-634b-4e54-a084-9734c87631b2" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/bunny_1_1.png"><img style="width:480px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/bunny_1_1.png"/></a><figcaption>bunny_1_1</figcaption></figure><figure id="8a813c8b-04f0-4ec5-817a-73c4598455d1" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/bunny_1_16.png"><img style="width:480px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/bunny_1_16.png"/></a><figcaption>bunny_1_16</figcaption></figure></div><div id="bdc72fdf-72c4-4df9-ba05-2976b185caef" style="width:50%" class="column"><figure id="a7477ef0-4699-4811-bb38-08277552796b" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/bunny_1_4.png"><img style="width:480px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/bunny_1_4.png"/></a><figcaption>bunny_1_4</figcaption></figure><figure id="58005cf0-90d4-43d5-ac43-eeefe7596da3" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/bunny_1_64.png"><img style="width:480px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/bunny_1_64.png"/></a><figcaption>bunny_1_64</figcaption></figure></div></div><p id="f36494aa-8acf-43f1-a055-9a67802dc96f" class="">As we can see, Noise decrease as number of samples per area light increase.</p><hr id="0192aec7-ab5e-4667-9f7c-7eaa04266139"/><div id="e940ea63-f31a-4af8-b0bd-904d6b27e9b7" class="column-list"><div id="78fcd414-490b-45b3-a80f-294a5abe1ecd" style="width:50%" class="column"><figure id="e403883c-dc2f-4898-96bb-cb0578e3b212" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/bunny_64_32%201.png"><img style="width:480px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/bunny_64_32%201.png"/></a><figcaption>bunny_64_32</figcaption></figure></div><div id="1d295a75-784f-44e1-a279-5c659c6d5e1c" style="width:50%" class="column"><figure id="04bbb3d5-3055-443d-a8df-b9a53226591f" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/CBbunny_H_64_32%201.png"><img style="width:480px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/CBbunny_H_64_32%201.png"/></a><figcaption>bunny_H_64_32</figcaption></figure></div></div><p id="c2ed31f0-63a5-4971-836d-cb525ceab1b0" class="">Lighting sampling is often preferred over uniform hemisphere sampling for noise control in computer graphics rendering. This is because it allows for more efficient sampling of light sources, resulting in lower levels of noise in the final image.</p><p id="9551591a-47f9-467e-b61d-d68296b791b4" class="">Uniform hemisphere sampling involves randomly selecting directions within a hemisphere centered at the surface point being shaded. However, this method does not take into account the distribution of light sources in the scene. As a result, it can produce a high level of noise in the final image, especially in areas with little light.</p><p id="7af51114-ab97-4f5e-91d0-3bf37feffa64" class="">In contrast, lighting sampling focuses on selecting directions towards light sources in the scene based on their contribution to the final image. This method takes into account the relative importance of each light source and samples them accordingly. As a result, it uses samples more efficiently and reduces noise.</p><p id="176fbeb5-da5f-44ff-b4ce-dc46390aedf8" class="">
+</p><p id="e729df67-92c1-433d-b6d7-f047775ccbb8" class="">
+</p><h2 id="aca8f9e3-356c-4ad4-b74d-840be48492dd" class="">Part 4: Global Illumination</h2><h3 id="ba7d4bdb-aa02-4d3a-a084-fcd769c788fd" class="">Implementation</h3><p id="310fe1c2-46b9-42e6-bd84-6552c0fea9ce" class=""><strong><strong><strong><strong><strong><strong><strong><strong><strong>Indirect Lighting Function:</strong></strong></strong></strong></strong></strong></strong></strong></strong></p><p id="3fcd5ec4-a241-46c9-bbb1-8e08085e31a4" class="">To implement indirect lighting we added another term in our <code>est_radiance_global_illumination</code> function: </p><pre id="4578c2bb-3c9e-45e2-8525-5100268fc4a3" class="code"><code>L_out = zero_bounce_radiance(r, isect) + at_least_one_bounce_radiance(r, isect)</code></pre><p id="82009487-9b16-480d-bf75-0cf199592f18" class="">The new term captures the radiance of secondary rays that bounces more than once in the entire scene. To make sure that the program terminates in finite time, we utilized the Russian roulette termination policy, which guarantees termination in at most <code>max_ray_depth</code> number of bounces. In each recursive step we flip a coin <code>coin_flip(termination_probability)</code> and if it lands true then we directly terminate the process. Within the recursive step, we do the following: </p><ol type="1" id="5900fc8c-e4ac-4681-8b6b-341ede8a28b0" class="numbered-list" start="1"><li>We test whether the ray intersects with a primitive, if not we do nothing and return the ray, else we keep track of the intersection in <code>newIsect</code></li></ol><ol type="1" id="6715a794-6298-4958-914d-464fcc03676e" class="numbered-list" start="2"><li>We create a <code>newRay</code> sampled in the incident direction <code>wi</code><strong> </strong>, representing the new ray generated by the bounce. We set the minimum and maximum distances of the ray are set to a small value <code>EPS_F</code> and <code>INF_D</code>, respectively. <pre id="5f35e805-bab4-4c00-b782-6d1e727b99cc" class="code"><code>Ray newRay = Ray(hit_p + EPS_D * wi_world, wi_world, (int)r.depth - 1);</code></pre></li></ol><ol type="1" id="09862d64-fe9e-4a5c-9be7-d63e30cc8c84" class="numbered-list" start="3"><li>We calculate the new ray’s luminance using Lambert’s law and BDSF sampling<pre id="a9bf01d5-091d-432e-b419-fd8dc2e65226" class="code"><code>L_out += f * newL * cos_theta(wi) / pdf / (1 - termination_probability);</code></pre><p id="cea2515e-8a72-4593-a598-dc841ff8ece1" class="">where <code>newL</code> is a recursive call to <code>at_least_one_bounce_radiance</code> using <code>newRay</code> and <code>newIsect</code></p></li></ol><h3 id="8ecfa0b4-f80f-4771-a3dd-a35f20813edf" class="">Results</h3><p id="01b9d506-4abb-4740-a78f-44b81fa9284c" class="">Sample images rendered with global (direct and indirect) illumination with 1024 samples per pixel:</p><div id="9769b06b-294c-4f37-9723-ee8b6a64cd5c" class="column-list"><div id="16146d2b-f7bf-4f15-88a9-1a528a3db7a9" style="width:50%" class="column"><figure id="6576fa9c-e09c-4c6d-bb9f-fd61bc979fd9" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/spheres.png"><img style="width:480px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/spheres.png"/></a></figure><p id="07d55219-6146-4976-9e66-fb3ff891db15" class="">
+</p></div><div id="d390cb79-3044-4231-bd52-921440cc489f" style="width:50%" class="column"><figure id="17c29226-f261-4a38-8f76-32cc25edf78a" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/sbunny.png"><img style="width:480px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/sbunny.png"/></a></figure><p id="7c48a2ed-abc9-4bad-adb5-9dc57e7d3dc0" class="">
+</p></div></div><hr id="de44cd4f-702b-4b17-a1dc-1ed5ccba96c9"/><p id="bdaa83fb-efe2-4bdf-afee-b91475033405" class="">Direct and Indirect lighting: </p><div id="0dcb4907-a6cb-4e85-91e9-cc485c73dbd9" class="column-list"><div id="3cea9c08-ef50-498f-8944-8cbf3548d45a" style="width:50%" class="column"><figure id="66ca83ac-bc68-4cc7-b92f-8b800f171a8d" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/bsbunny.png"><img style="width:480px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/bsbunny.png"/></a><figcaption>only indirect</figcaption></figure></div><div id="f8ffae48-c5e5-458c-8078-6575697b281c" style="width:50%" class="column"><figure id="ad289ece-74f1-415a-be69-5a21c9b757f8" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/dir_bsbunny.png"><img style="width:480px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/dir_bsbunny.png"/></a><figcaption>only direct</figcaption></figure></div></div><hr id="a788eba0-f774-4855-b602-ffbf104b5b23"/><p id="0231a0e1-95ff-4c31-a353-6cff28e3e495" class="">Altering <code>max-ray_depth</code></p><div id="4ef218f4-0153-49f2-8952-28689f1d3447" class="column-list"><div id="961616de-bc2d-4346-b247-74c5655d73e3" style="width:50%" class="column"><figure id="eeb68c3a-a2a8-49d3-a4ca-4c9c15bb115e" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/1024_1_bunny.png"><img style="width:480px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/1024_1_bunny.png"/></a><figcaption>0 bounce</figcaption></figure><figure id="359cdc1f-eeda-46fe-abb5-898afeff208b" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/1024_2_bunny.png"><img style="width:480px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/1024_2_bunny.png"/></a><figcaption>1 bounce</figcaption></figure><figure id="7f61ab60-e36e-4325-95b4-bb964b425712" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/1024_3_bunny.png"><img style="width:480px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/1024_3_bunny.png"/></a><figcaption>2 bounces</figcaption></figure></div><div id="6c5465f3-0180-4208-bffb-0defc28fceeb" style="width:50%" class="column"><p id="281c4d0e-b90d-4924-a321-7b5448610fac" class="">
+</p><p id="19f18ce3-ddec-4725-9ab6-14854eacc9b6" class="">
+</p><p id="308bdef7-5d69-442d-9902-d05721ab8b53" class="">
+</p><p id="e4a90993-ed8a-4c20-be31-702bdc7f6ad0" class="">
+</p><p id="14baeec7-2970-4b50-a59a-68715ab5f739" class="">
+</p><figure id="c4c64348-b29a-4d6a-909b-3d39a33af3ee" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/1024_4_bunny.png"><img style="width:480px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/1024_4_bunny.png"/></a><figcaption>3 bounces</figcaption></figure><figure id="8782ee9f-2032-40ca-b186-6c281f1cc742" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/1024_100_bunny.png"><img style="width:480px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/1024_100_bunny.png"/></a><figcaption>100 bounces</figcaption></figure><p id="d170f37f-387a-4eb9-9610-be59bc4c02bd" class="">
+</p></div></div><p id="d9b088a9-1422-483b-8e31-c9c1ab3dc8a3" class="">As we can see as the bounces increase more colors from near by walls get projected on to the object, and the scene gets progressively brighter. Arguably making the rendering more realistic.</p><hr id="70b4da1c-4b73-47bc-9fc9-df4d23603280"/><p id="ebec974f-6746-4335-bdfa-2a57b025909b" class="">Alternating sample-per-pixel rates (3 max bounces, 4 light rays)</p><div id="71de3cb4-6a26-4f16-bdc0-c4a23d2311c2" class="column-list"><div id="4edcbfcf-2597-482c-a974-2a664657f31c" style="width:33.33333333333333%" class="column"><figure id="1931a0cc-85a4-47e1-b9f5-d0b95b74e80f" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/1_4_sbunny.png"><img style="width:480px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/1_4_sbunny.png"/></a><figcaption>1 sample</figcaption></figure><figure id="c1846e05-ae87-473c-a042-35ff212e5f03" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/8_4_sbunny.png"><img style="width:480px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/8_4_sbunny.png"/></a><figcaption>8 samples</figcaption></figure><p id="ede38a7f-2ed8-4a21-9b2b-138fce877b92" class="">
+</p></div><div id="eab71a19-a167-43e0-bf2b-f1fa36df0bda" style="width:33.33333333333333%" class="column"><figure id="fb5fe625-274e-43b4-b699-f02f3d8b94cc" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/2_4_sbunny.png"><img style="width:480px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/2_4_sbunny.png"/></a><figcaption>2 samples</figcaption></figure><figure id="88b7a2da-2c39-4f83-8fd4-62cb079325ed" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/16_4_sbunny.png"><img style="width:480px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/16_4_sbunny.png"/></a><figcaption>16 samples</figcaption></figure><figure id="7309dcb9-6496-475d-9237-6bb63a33b853" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/1024_4_sbunny.png"><img style="width:480px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/1024_4_sbunny.png"/></a><figcaption>1024 samples</figcaption></figure><p id="9231d0af-7272-418b-92db-3651b880c393" class="">
+</p></div><div id="8185ee38-dc57-4e5b-a7d8-01f4d15b9b70" style="width:33.33333333333333%" class="column"><figure id="a9ac6dbc-3986-4e59-b176-9cd2ea2b9692" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/4_4_sbunny.png"><img style="width:480px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/4_4_sbunny.png"/></a><figcaption>4 samples</figcaption></figure><figure id="fade86f7-ff3e-49c6-bd7b-454e71b0cc6a" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/64_4_sbunny.png"><img style="width:480px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/64_4_sbunny.png"/></a><figcaption>64 samples</figcaption></figure><p id="c9db8f9c-ecdf-4643-9414-aa275b1f6745" class="">
+</p></div></div><p id="ac995069-4487-43e6-b660-a989d2ad041f" class="">
+</p><p id="a5b4ecb5-ed53-4c5b-b860-c78c4b0e10d6" class="">
+</p><h2 id="04df0f16-8e8b-4245-a177-b83e5d67151f" class="">Part 5: Adaptive Sampling</h2><h3 id="e771c103-0b37-474c-a72d-e71da62f22cf" class="">Implementation</h3><ol type="1" id="45b799cb-6ed7-46fd-9f75-a27205c731da" class="numbered-list" start="1"><li>We iterate <code>num_samples</code> times, if the iterator <code>i</code> match the <code>samplesPerBatch</code> we update the mean <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>μ</mi></mrow><annotation encoding="application/x-tex">\mu</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">μ</span></span></span></span></span><span>﻿</span></span>  and standard deviation <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>σ</mi></mrow><annotation encoding="application/x-tex">\sigma</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span></span></span></span></span><span>﻿</span></span> by the formula below.   <figure id="f5d1c8c7-00bd-4e3f-b7d1-ce7830634775" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>μ</mi><mo>=</mo><mfrac><msub><mi>s</mi><mn>1</mn></msub><mi>n</mi></mfrac></mrow><annotation encoding="application/x-tex">\mu=\frac{s_1}{n}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">μ</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.7935599999999998em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.1075599999999999em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">n</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal">s</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></div></figure><figure id="cd0487b2-e471-41fc-a100-fb196edb1803" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msup><mi>σ</mi><mn>2</mn></msup><mo>=</mo><mfrac><mn>1</mn><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></mfrac><mo>⋅</mo><mo stretchy="false">(</mo><msub><mi>s</mi><mn>2</mn></msub><mo>−</mo><mfrac><msubsup><mi>s</mi><mn>1</mn><mn>2</mn></msubsup><mi>n</mi></mfrac><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\sigma^2 = \frac{1}{n - 1} \cdot (s_2 - \frac{s^2_1}{n})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8641079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641079999999999em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.09077em;vertical-align:-0.7693300000000001em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.32144em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">1</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.7693300000000001em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">s</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:2.177108em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.4911079999999999em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">n</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal">s</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-2.4518920000000004em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.24810799999999997em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose">)</span></span></span></span></span></div></figure></li></ol><ol type="1" id="4c447e45-dbe7-4578-8c8a-a95d03666743" class="numbered-list" start="2"><li>We then calculate the convergence <code>I</code> by the formula below.<figure id="ee823b19-e3b1-4f83-947e-b7b078f33a63" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>I</mi><mo>=</mo><mn>1.96</mn><mo>⋅</mo><mfrac><mi>σ</mi><msqrt><mi>n</mi></msqrt></mfrac></mrow><annotation encoding="application/x-tex">I = 1.96 \cdot \frac {\sigma}{\sqrt{n}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1.96</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:2.03756em;vertical-align:-0.9300000000000002em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.10756em;"><span style="top:-2.30972em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8002800000000001em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord mathnormal">n</span></span></span><span style="top:-2.76028em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg width='400em' height='1.08em' viewBox='0 0 400000 1080' preserveAspectRatio='xMinYMin slice'><path d='M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.23972em;"><span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.9300000000000002em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></div></figure></li></ol><ol type="1" id="50d459af-96c8-4fad-b8fa-4e10607c9aa2" class="numbered-list" start="3"><li>If we meet the following condition, we break the for loop. Else we continue the algorithm in part 1.2<figure id="2ed70d53-d2de-4c4d-a6e6-76e730432789" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>I</mi><mo>≤</mo><mi>m</mi><mi>a</mi><mi>x</mi><mi>T</mi><mi>o</mi><mi>l</mi><mi>e</mi><mi>r</mi><mi>a</mi><mi>n</mi><mi>c</mi><mi>e</mi><mo>⋅</mo><mi>μ</mi></mrow><annotation encoding="application/x-tex">I \le maxTolerance \cdot \mu</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.13597em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">ma</span><span class="mord mathnormal">x</span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal" style="margin-right:0.02778em;">er</span><span class="mord mathnormal">an</span><span class="mord mathnormal">ce</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">μ</span></span></span></span></span></div></figure></li></ol><ol type="1" id="6ee102de-1375-4bc3-a9a5-882fe8885aa6" class="numbered-list" start="4"><li>Finally we update <code>s1</code> and <code>s2</code> by the formula below, where x is the illuminance<p id="bbc63046-1c4d-4939-9cc3-8a8b3b2e6641" class=""> </p><figure id="6b94e501-c54b-451f-9bae-bf12c16336ac" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>s</mi><mn>1</mn><mo>=</mo><munderover><mo>∑</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>x</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">s1 = \sum\limits_{k=1}^{n}{x_k}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord mathnormal">s</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.9535100000000005em;vertical-align:-1.302113em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.6513970000000002em;"><span style="top:-1.8478869999999998em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.0500049999999996em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span><span style="top:-4.300005em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.302113em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></span></div></figure><figure id="23a9085f-a7d3-430a-90cc-33f829685fc1" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>s</mi><mn>2</mn><mo>=</mo><munderover><mo>∑</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msubsup><mi>x</mi><mi>k</mi><mn>2</mn></msubsup></mrow><annotation encoding="application/x-tex">s2 = \sum\limits_{k=1}^{n}{x_k^2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord mathnormal">s</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.9535100000000005em;vertical-align:-1.302113em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.6513970000000002em;"><span style="top:-1.8478869999999998em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.0500049999999996em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span><span style="top:-4.300005em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.302113em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8641079999999999em;"><span style="top:-2.4530000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span></span></span></span></span></span></div></figure></li></ol><h3 id="af369ff0-c499-460c-b2eb-8e64b8ad4d12" class="">Results</h3><div id="b9b61bb5-8858-409d-8ac9-2ab49d11fc9a" class="column-list"><div id="93bb6d26-b24d-4acb-9354-61f14afc343b" style="width:50%" class="column"><figure id="322a1cc1-842f-4a10-96c0-69434861c419" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/bunny.png"><img style="width:480px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/bunny.png"/></a></figure><figure id="ad090e18-0b82-422c-b173-0eb6dd3ad369" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/blob.png"><img style="width:480px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/blob.png"/></a></figure><p id="ac55374e-91c7-4e42-8d97-48a8955fca3d" class="">
+</p></div><div id="b01ccddd-365f-458d-99a8-26fc181fc766" style="width:50%" class="column"><p id="49e60f8d-3124-48b8-9e63-e3eb6c1b4159" class="">
+</p><figure id="c18c222c-a337-4dbf-a93d-dd289910e59d" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/bunny_rate.png"><img style="width:480px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/bunny_rate.png"/></a></figure><figure id="0f29879b-0022-438b-b773-92076428dc83" class="image"><a href="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/blob_rate.png"><img style="width:480px" src="Project%203-1%20Path%20Tracer%205ecbc244d97346bf87a014a2ae6edd0a/blob_rate.png"/></a></figure></div></div><h2 id="e9791f8f-f251-4ed2-86d1-dd66ddbb72b2" class="">Collaboration Experience</h2><p id="02131115-3e0c-48c9-80ce-8ccc7e38ba2e" class="">Throughout this project, Yueheng and Yi collaborated closely to build a high-quality renderer. We communicated frequently, shared our progress, and provided feedback to each other. Working as a team allowed us to solve problems together and come up with creative solutions. Our collaboration went smoothly, and we were able to divide the workload and tackle different aspects of the project while keeping the big picture in mind. We heavily relied on Git for version controlling, and avoided a lot of weird issues with branching and merging. We also attended project party together to solve one of the weird issues we were having. Overall, working with together was a great learning opportunity, and I am grateful for the experience.</p><p id="d0d41237-9720-4ad8-aed9-d0c8510a23f7" class="">
+</p></div></article></body></html>
