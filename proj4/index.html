@@ -1,7 +1,677 @@
-<html>
-	<head>
-	</head>
-	<body>
-		Project 4 here
-	</body>
-</html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Project 4: Cloth Sim</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="9ff8baf0-8cb7-48e1-9cbb-cf5bed80f6e7" class="page sans"><header><h1 class="page-title">Project 4: Cloth Sim</h1></header><div class="page-body"><p id="5afbf4b3-42ff-4987-b04d-c76fa9ed1df2" class=""><strong><strong><strong><strong><strong><strong>Yi Mu, Yueheng Zhang</strong></strong></strong></strong></strong></strong></p><nav id="62496a8f-0dbd-47dd-9b15-2a6696e5d7b5" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#673fba4d-f40b-489b-800f-183a696be800">Part 1 - Masses and Springs</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#3329cb14-a769-48a8-9ca4-2f4647d321ef">Part 2 - Simulation via numerical integration</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#9fc82bce-40b0-46ab-a62a-e65e7bbeb445">Spring Constant</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#545a3d73-7075-4cf0-ac60-3bd71d22d5e5">Fabric Density</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#74edebc7-e5e9-4b07-8aef-767139dd41cb">Damping</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#acef4fe9-a3df-4f95-8bc0-1bf92b70ed51">Part 3 - Handling collision with objects</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#3e95c29a-16a5-407d-9f29-220d18a6436c">Collision with Sphere</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#7018566b-cc6c-4407-bc91-f5cdab6ce609">Collision with Plane</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#b6865ac8-d148-4fc5-86aa-cac8d7a6d112">Part 4 - Handling self collision</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#bba2774d-5ed3-44e8-85ed-6cb2dd7592a5">Cloth Folding</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#2e52206b-9669-4435-a115-a0848ddbe5b7">Altering Density and Spring Constant</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#731cf5c3-0565-4b39-9999-e65610b53e92">Density</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#d3cc37ee-72c6-47ca-81a5-256a45f7b0af">Spring Constant </a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#e7b80286-9039-42f3-b0cd-060f43765b63">Part 5 - Shaders</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#7a2c2612-da57-4ce1-a29b-3e21e7d5f979">Bling-Phong Shading</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#290dfa6d-afa8-4450-bf45-764ae5166fb0">Custom Texture</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#7bff8110-d97f-4e88-8122-0613d4356292">Bump and Displacement Mapping</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#146a769d-3fcd-4123-bd96-1a17b1f2badc">Mirror Shader</a></div></nav><h1 id="673fba4d-f40b-489b-800f-183a696be800" class="">Part 1 - Masses and Springs</h1><figure id="b3eabcb1-fd0e-410a-b7ab-24f68245f97b" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/Screenshot_2023-04-02_220156.png"><img style="width:1516px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/Screenshot_2023-04-02_220156.png"/></a><figcaption>All Constraints Together</figcaption></figure><figure id="5f86598c-848d-41a2-a5c7-9643d7dfe403" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/Screenshot_2023-04-02_220037.png"><img style="width:1536px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/Screenshot_2023-04-02_220037.png"/></a><figcaption>Without Shearing</figcaption></figure><figure id="6aa8b257-7b75-4145-820f-3eb4060206e1" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/Screenshot_2023-04-02_220006.png"><img style="width:1528px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/Screenshot_2023-04-02_220006.png"/></a><figcaption>Only Shearing Constraint</figcaption></figure><h1 id="3329cb14-a769-48a8-9ca4-2f4647d321ef" class="">Part 2 - Simulation via numerical integration</h1><p id="216fa609-207a-4edd-bfc3-13f73c7669e6" class="">In the following simulations, the middle column serves as the baseline of comparison, with <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mi>s</mi><mo>=</mo><mn>5000</mn></mrow><annotation encoding="application/x-tex">ks=5000</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mord mathnormal">s</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">5000</span></span></span></span></span><span>﻿</span></span>, <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>e</mi><mi>n</mi><mi>s</mi><mi>i</mi><mi>t</mi><mi>y</mi><mo>=</mo><mn>15</mn></mrow><annotation encoding="application/x-tex">density=15</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">e</span><span class="mord mathnormal">n</span><span class="mord mathnormal">s</span><span class="mord mathnormal">i</span><span class="mord mathnormal">t</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">15</span></span></span></span></span><span>﻿</span></span>, <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>a</mi><mi>m</mi><mi>p</mi><mi>i</mi><mi>n</mi><mi>g</mi><mo>=</mo><mn>0.2</mn></mrow><annotation encoding="application/x-tex">damping=0.2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">am</span><span class="mord mathnormal">p</span><span class="mord mathnormal">in</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0.2</span></span></span></span></span><span>﻿</span></span>, and <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi><mo>=</mo><mn>9.8</mn></mrow><annotation encoding="application/x-tex">g=9.8</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">9.8</span></span></span></span></span><span>﻿</span></span></p><figure id="b75651d4-8ae9-4a93-a2e9-b37484e53399" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/Untitled.png"><img style="width:1809px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/Untitled.png"/></a><figcaption>The cloth at its resting position</figcaption></figure><p id="20bec4f3-e6c0-4d86-a78f-6178c09018ff" class="">
+</p><p id="97ad5120-9cb7-46f3-a20f-d7700176c7f3" class=""><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em><em>The ‘screenshots’ in the following sections are actually gifs (recordings of the render) please see the gifs in action on the website as it may not be available in pdf form.</em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></em></p><h2 id="9fc82bce-40b0-46ab-a62a-e65e7bbeb445" class="">Spring Constant</h2><div id="c59fa84a-5376-4a70-b288-322e39f676a1" class="column-list"><div id="22847bdf-96bb-4137-8d4a-d2a3ca77fea0" style="width:33.33333333333333%" class="column"><figure id="0a46da91-0396-4d8c-95c0-83268e9dfbd1" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/15-100-0.2-9.8.gif"><img style="width:1056px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/15-100-0.2-9.8.gif"/></a><figcaption>ks=100</figcaption></figure></div><div id="bc710145-d2e3-483f-bac6-f7c64cb24599" style="width:33.33333333333333%" class="column"><figure id="b60d9053-c859-4b5e-bf9b-29ef77185c32" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/15-5000-0.2-9.8.gif"><img style="width:1056px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/15-5000-0.2-9.8.gif"/></a><figcaption>ks=5000</figcaption></figure></div><div id="57cd3fa1-fa1f-4e4c-bff0-18397531480b" style="width:33.33333333333333%" class="column"><figure id="9bbed10e-4f1a-4dd4-afee-ee0dc458b235" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/15-10000-0.2-9.8.gif"><img style="width:1056px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/15-10000-0.2-9.8.gif"/></a><figcaption>ks=10000</figcaption></figure></div></div><p id="bd1f5ee9-eda0-4c07-9cbd-cf0723106ecc" class="">As we can see as <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">ks</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mord mathnormal">s</span></span></span></span></span><span>﻿</span></span> gets larger the cloth is more “tightly knit”. That is the cloth becomes more rigid and less prone to local changes. </p><h2 id="545a3d73-7075-4cf0-ac60-3bd71d22d5e5" class="">Fabric Density</h2><div id="ecf72dc8-6b5f-4427-85fa-e7fe49c54ee9" class="column-list"><div id="667326b1-0713-4880-b20e-7f317eab15f3" style="width:33.33333333333333%" class="column"><figure id="d36aee94-222d-468c-b80d-294ff7edbbc1" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/0.5-5000-0.2-9.8.gif"><img style="width:1056px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/0.5-5000-0.2-9.8.gif"/></a><figcaption>density=0.5</figcaption></figure></div><div id="71667380-ee54-4439-8d19-fcac204c6f89" style="width:33.33333333333333%" class="column"><figure id="67742f5a-e609-450e-8b32-2a664d32e0ff" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/15-5000-0.2-9.8%201.gif"><img style="width:1056px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/15-5000-0.2-9.8%201.gif"/></a><figcaption>density=15</figcaption></figure></div><div id="d2bde712-25d7-46d7-993c-7e7708f16c49" style="width:33.33333333333333%" class="column"><figure id="d4363e20-9fd2-4f20-9175-e33d09882125" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/90-5000-0.2-9.8.gif"><img style="width:1056px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/90-5000-0.2-9.8.gif"/></a><figcaption>density=90</figcaption></figure></div></div><p id="c093d67e-4841-4732-9703-e09c7f64f6f8" class="">As we can see as <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>e</mi><mi>n</mi><mi>s</mi><mi>i</mi><mi>t</mi><mi>y</mi></mrow><annotation encoding="application/x-tex">density</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">e</span><span class="mord mathnormal">n</span><span class="mord mathnormal">s</span><span class="mord mathnormal">i</span><span class="mord mathnormal">t</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span></span><span>﻿</span></span> of the fabric gets larger, (of course) the fabric gets heavier. Noticeably the dip in between the two hanging points gets lower when density grow, this is expected because the middle seam is under more stress due to more mass.</p><h2 id="74edebc7-e5e9-4b07-8aef-767139dd41cb" class="">Damping</h2><div id="faaf56a1-c430-47ad-92cc-7f64f8abffa4" class="column-list"><div id="298eee65-8270-4d69-beab-823b9ee4de13" style="width:33.33333333333333%" class="column"><figure id="c0461f02-a40f-427e-9f82-171ee246d463" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/15-5000-0-9.8.gif"><img style="width:1246px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/15-5000-0-9.8.gif"/></a><figcaption>damping=0</figcaption></figure></div><div id="e216451d-572f-4c08-bd2c-324f9f499d6a" style="width:33.33333333333333%" class="column"><figure id="f5d97f0b-b7d2-4b0f-896a-60547e68e33d" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/15-5000-0.2-9.8%202.gif"><img style="width:1056px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/15-5000-0.2-9.8%202.gif"/></a><figcaption>damping=0.2</figcaption></figure></div><div id="2db47a3e-bf64-4184-bb49-871de5ec5da6" style="width:33.33333333333333%" class="column"><figure id="3b544f28-0a52-420b-9149-5eb9b397e054" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/15-5000-0.7-9.8.gif"><img style="width:1350px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/15-5000-0.7-9.8.gif"/></a><figcaption>damping=0.7</figcaption></figure></div></div><p id="8867a661-d23a-4725-92b5-5b49e1452736" class="">As we can see, damping governs how much energy is dissipated in each timestep. At <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>a</mi><mi>m</mi><mi>p</mi><mi>i</mi><mi>n</mi><mi>g</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">damping=0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">am</span><span class="mord mathnormal">p</span><span class="mord mathnormal">in</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span></span><span>﻿</span></span> the potential energy in the system is almost fully preserved (except the loss in our simulation where we constraint the changes in  each timestep [Provot 1995] to enhance behavior). At the <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>a</mi><mi>m</mi><mi>p</mi><mi>i</mi><mi>n</mi><mi>g</mi><mo>=</mo><mn>0.7</mn></mrow><annotation encoding="application/x-tex">damping=0.7</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">am</span><span class="mord mathnormal">p</span><span class="mord mathnormal">in</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0.7</span></span></span></span></span><span>﻿</span></span> the cloth even falls more slowly because of the constraint of how much position change can happen in any given timestep during our Verlet integration. </p><h1 id="acef4fe9-a3df-4f95-8bc0-1bf92b70ed51" class="">Part 3 - Handling collision with objects</h1><h2 id="3e95c29a-16a5-407d-9f29-220d18a6436c" class="">Collision with Sphere</h2><div id="9a53b217-0872-4fd9-b04a-5e9794f0339f" class="column-list"><div id="583704d1-63ea-407f-b549-1414ccabe9b8" style="width:33.33333333333333%" class="column"><figure id="2c34136b-e56d-4283-85b6-63a974f6a7c5" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/sphere-500.gif"><img style="width:897px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/sphere-500.gif"/></a><figcaption>ks=500</figcaption></figure></div><div id="fa9adc99-a36e-486e-8f88-caf2dca55f9a" style="width:33.33333333333333%" class="column"><figure id="3567b206-7a0a-452c-865b-94ac5616f7f1" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/sphere-5000.gif"><img style="width:898px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/sphere-5000.gif"/></a><figcaption>ks=5000</figcaption></figure></div><div id="16a7cd5b-5ea7-48bf-a155-69331ac37154" style="width:33.33333333333333%" class="column"><figure id="425f7503-2659-4356-97e1-684b4d78cac6" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/sphere-10000.gif"><img style="width:897px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/sphere-10000.gif"/></a><figcaption>ks=10000</figcaption></figure></div></div><figure id="dc99b79b-bf41-41a9-9084-e821373647be" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/Untitled%201.png"><img style="width:1389px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/Untitled%201.png"/></a><figcaption>Resting position of different spring constants (screenshot from the gifs)</figcaption></figure><h2 id="7018566b-cc6c-4407-bc91-f5cdab6ce609" class="">Collision with Plane</h2><div id="a63939c5-d8b6-47f0-a74c-f79746db22f0" class="column-list"><div id="a6b135af-bc30-4901-bf01-ba38e4e61332" style="width:50%" class="column"><figure id="de22b64e-0b1b-4e42-982e-04f312222976" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/Untitled%202.png"><img style="width:1283px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/Untitled%202.png"/></a><figcaption>Cloth lying peacefully on a plane</figcaption></figure><p id="52a1704d-ebd0-4e3d-8751-925e103d020f" class="">
+</p></div><div id="060bcf12-0042-4d26-bc38-d27db3aa5c23" style="width:50%" class="column"><p id="e9a747c7-2069-44f6-881e-f8adcde59d84" class="">
+</p></div></div><h1 id="b6865ac8-d148-4fc5-86aa-cac8d7a6d112" class="">Part 4 - Handling self collision</h1><h2 id="bba2774d-5ed3-44e8-85ed-6cb2dd7592a5" class="">Cloth Folding</h2><div id="31d390bf-c5ae-49c0-ad37-5a1cee781a5b" class="column-list"><div id="35c65f5f-739a-4947-aca2-c346c69a7fe6" style="width:50%" class="column"><figure id="ae0a4c5a-d852-4e06-b324-c6db594dec46" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258A%25E5%258D%25884.46.00.png"><img style="width:2048px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258A%25E5%258D%25884.46.00.png"/></a><figcaption>1</figcaption></figure><figure id="68118a83-1a69-4ca4-95b4-1a858012cab3" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258A%25E5%258D%25884.47.23.png"><img style="width:2056px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258A%25E5%258D%25884.47.23.png"/></a><figcaption>3</figcaption></figure></div><div id="863d9ad0-1e6e-4c78-a6a2-f518184c56b6" style="width:50%" class="column"><figure id="e4a7c356-d4b6-4475-83a2-8e7085905841" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258A%25E5%258D%25884.46.23.png"><img style="width:720px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258A%25E5%258D%25884.46.23.png"/></a><figcaption>2</figcaption></figure><figure id="fc68a081-2d2d-46cb-a8d5-4848955d9f49" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258A%25E5%258D%25884.47.39.png"><img style="width:2050px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258A%25E5%258D%25884.47.39.png"/></a><figcaption>4</figcaption></figure></div></div><h2 id="2e52206b-9669-4435-a115-a0848ddbe5b7" class="">Altering Density and Spring Constant</h2><div id="1c2455b7-c65c-4c2d-b336-b8da87a48ba6" class="column-list"><div id="566955a0-8ba8-4f75-b094-bd5920e6c63a" style="width:50%" class="column"><h3 id="731cf5c3-0565-4b39-9999-e65610b53e92" class="">Density</h3><hr id="cfd9a2b0-004a-4912-a9b2-50fdf8639429"/><figure id="2828174a-00b6-4a77-a25a-1c84aad4efaf" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25885.06.17.png"><img style="width:2054px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25885.06.17.png"/></a><figcaption>density = 1500, ks = 5000</figcaption></figure><figure id="70434b55-ca29-4847-bbd2-f0ef86dce87e" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25885.08.17.png"><img style="width:2050px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25885.08.17.png"/></a><figcaption>density = 1500, ks = 5000</figcaption></figure><figure id="87e977aa-1764-49d7-bf58-fa7ec4d7631d" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25885.07.02.png"><img style="width:336px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25885.07.02.png"/></a><figcaption>density = 15, ks = 5000</figcaption></figure><figure id="b12b7421-5fbf-4e65-b680-689bc116a5cd" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25885.07.41.png"><img style="width:2052px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25885.07.41.png"/></a><figcaption>density = 15, ks = 5000</figcaption></figure><p id="edc80756-7c37-4b14-a5d0-d8a57ff7c228" class="">
+</p><p id="a6215927-522f-4588-a288-89d78012b789" class="">When the <code>density</code> is increased, the cloth becomes heavier and falls faster due to the force of gravity. It becomes more resistance to deformation as it falls on itself (as we can see on the top part of the cloth), making it more easy to create folds and wrinkles</p></div><div id="7c4899b2-38f1-4788-87fc-a944a4995468" style="width:50%" class="column"><h3 id="d3cc37ee-72c6-47ca-81a5-256a45f7b0af" class="">Spring Constant </h3><hr id="7af1c3d3-2247-46c9-bc46-69830e99087a"/><figure id="af720599-326c-469f-a303-8a7ec710c0ed" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25885.16.32.png"><img style="width:2050px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25885.16.32.png"/></a><figcaption>density = 15, ks = 5</figcaption></figure><figure id="a49eea68-663e-45cb-9f0f-6230babc3161" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25885.17.01.png"><img style="width:2052px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25885.17.01.png"/></a><figcaption>density = 15, ks = 5</figcaption></figure><figure id="8e24da45-6248-4a06-9b67-c5bc22334142" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25885.17.59.png"><img style="width:2050px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25885.17.59.png"/></a><figcaption>density = 15, ks = 5000</figcaption></figure><figure id="ad380e0d-e0c2-4ee2-ad60-63536feee25a" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25885.18.26.png"><img style="width:2060px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25885.18.26.png"/></a><figcaption>density = 15, ks = 5000</figcaption></figure><p id="a8d45abe-c3b9-48ae-a3ae-3c42e9463b58" class="">
+</p><p id="0eddf849-3058-46da-a6f8-8302dbe8f461" class="">When <code>ks</code> value increased, the cloth becomes stiffer and more resistant to bending and stretching. This can make it more easier to create folds and wrinkles. </p></div></div><h1 id="e7b80286-9039-42f3-b0cd-060f43765b63" class="">Part 5 - Shaders</h1><p id="595881c3-959e-4a66-9a82-ea4b2dd3ac04" class="">
+</p><p id="f7de6f49-52b4-45a7-9612-131376309f14" class="">Shader program provide an efficient way to rendering realistic material appearances without using exhaustive ray tracing. These programs consist two part: the vertex and the fragment shader. The vertex shader assigns attributes to the vertices in the scene and transforms the scene to normalized devices coordinates. The fragment shader assigns an RGBA vector to each pixel on the display, based on interpolated vertex data. By manipulating the vertex attributes in the fragment shader thus various material effects can be produced. Once the pixels value for each vertex are determined, the fragment shader interpolates between them to fill in the remaining pixels, since every vertex corresponds to a single pixel. </p><h2 id="7a2c2612-da57-4ce1-a29b-3e21e7d5f979" class="">Bling-Phong Shading</h2><ul id="08727c7d-7ade-4e0d-9e50-830e3d1870c0" class="bulleted-list"><li style="list-style-type:disc">Explain the Blinn-Phong shading model in your own words. Show a screenshot of your Blinn-Phong shader outputting only the ambient component, a screen shot only outputting the diffuse component, a screen shot only outputting the specular component, and one using the entire Blinn-Phong model.</li></ul><p id="67f2743f-22a1-49f7-a20b-c798bae5e127" class="">The Blinn-Phong shading model consist of three part: ambient, diffuse, and specular reflections. Ambient light is the constant intensity that uniformly reflects off all objects in the scene. Diffuse lighting depends on the surface normal of the object relative to the illumination source, with the highest intensities appearing on surface normals that face the light source. Specular reflection produces a glare that depends on the illumination source position, surface normal, and viewing position, and is characteristic of glossy materials. </p><div id="058461aa-6ed5-4077-8da3-71ea939f1806" class="column-list"><div id="908b3a4f-76e8-451f-8024-b73cfb822402" style="width:50%" class="column"><figure id="cfbbf865-e2ed-4c8e-b5e2-12ac629ca27d" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25885.49.28.png"><img style="width:2048px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25885.49.28.png"/></a><figcaption>Specular component</figcaption></figure></div><div id="9f19b0ac-afcf-4de6-a6cd-eeba9dff618b" style="width:50%" class="column"><figure id="22629e3b-a8e3-49ee-bf23-50986c789c03" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25885.50.31.png"><img style="width:2052px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25885.50.31.png"/></a><figcaption>Diffuse component</figcaption></figure></div></div><div id="8bb98da6-b862-4b22-9eb1-3593706bc1b4" class="column-list"><div id="8a03402a-f283-43f4-9ce0-b275cce48e8a" style="width:50%" class="column"><figure id="0240e36a-131d-4a82-869e-32dd8e932192" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25886.06.31.png"><img style="width:2050px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25886.06.31.png"/></a><figcaption>ambient component</figcaption></figure></div><div id="34b9bb35-85c8-4e34-9a28-a46d79d61c00" style="width:50%" class="column"><figure id="279e3935-e4bc-484d-81b4-7cf2c8b46fde" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25886.08.19.png"><img style="width:2048px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25886.08.19.png"/></a><figcaption>phong</figcaption></figure></div></div><h2 id="290dfa6d-afa8-4450-bf45-764ae5166fb0" class="">Custom Texture</h2><div id="cf8e280a-4be8-4c4f-b6dd-3ec9f438cf6c" class="column-list"><div id="d8628cfb-2ef9-4e8e-8d97-b6d4a078604d" style="width:50%" class="column"><figure id="6dbc5ce7-526b-40f7-8dc0-9b1dd04fdd76" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25886.11.05.png"><img style="width:3450px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25886.11.05.png"/></a><figcaption>Alex’s head</figcaption></figure><p id="8ab878e4-46e9-4b0f-92a6-05043ed64953" class="">which, of course, is made by Muyi</p></div><div id="ae222f5d-51e1-45dd-b67d-b2b6cc15ebac" style="width:50%" class="column"><figure id="657643a7-0e46-47e4-bf3c-cbd7fdcd2c85" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25886.11.42.png"><img style="width:2056px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25886.11.42.png"/></a><figcaption>Alex’s head</figcaption></figure></div></div><h2 id="7bff8110-d97f-4e88-8122-0613d4356292" class="">Bump and Displacement Mapping</h2><p id="dd6a763c-a273-40e9-9b37-876fe1a6b752" class="">Displayed below are images comparing bump mapping and displacement mapping of a texture on a sphere. In the first row of images, the sphere&#x27;s surface is a total of 16x16 vertices. Visually, bump mapping appears to outperform displacement mapping for this low sampling rate. The blocky appearance of the 16x16 displacement mapping image is noticeable due to the interpolation of physical height perturbations over the sphere from a relatively sparse number of samples. On the other hand, the texture itself has an abundant amount of high-frequency content over the sphere that cannot be accurately represented by the surface displacements resulting from the low sampling rate. In contrast, the second row of images features a higher sampling rate of 128x128 samples on the sphere. This higher sampling rate is adequate for the surface displacements to match the texture&#x27;s high-frequency content. In this case, displacement mapping accurately depicts both the shading of the texture and the physical deformations on the sphere defined by the texture.</p><div id="d9b42306-fb2f-44d3-accb-b4e33c22495a" class="column-list"><div id="7c1bad22-d25e-4e4c-b18a-cfadbe32dd09" style="width:50%" class="column"><figure id="04d71b57-1449-4be6-99c3-70036a3cbe8b" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25886.27.08.png"><img style="width:2050px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25886.27.08.png"/></a><figcaption>16 16 bump</figcaption></figure><figure id="c06b1165-ad6a-488e-abcb-d31b215edee2" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25886.25.23.png"><img style="width:2048px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25886.25.23.png"/></a><figcaption>128 128 bump</figcaption></figure></div><div id="f4a85270-7eef-4754-814f-e1cc7de73cc2" style="width:50%" class="column"><figure id="bcafe8b1-fa0d-42c5-9213-a749ebe1b56c" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25886.27.46.png"><img style="width:2052px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25886.27.46.png"/></a><figcaption>16 16 displacement</figcaption></figure><figure id="751aff17-533d-4dbb-bd2a-f1ff108fa669" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25886.25.40.png"><img style="width:2052px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25886.25.40.png"/></a><figcaption>128 128 displacement</figcaption></figure></div></div><h2 id="146a769d-3fcd-4123-bd96-1a17b1f2badc" class="">Mirror Shader</h2><div id="f1f0d145-f6c0-4fea-b152-5e2842bf55d4" class="column-list"><div id="6fc8c372-3ba1-4015-bb0e-d4606d33e7bd" style="width:50%" class="column"><figure id="3775c5c4-2dc6-41b9-8da5-8bde839abf75" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25886.42.57.png"><img style="width:2056px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25886.42.57.png"/></a></figure><p id="12f64318-8617-4e95-a48a-7409169fe641" class="">
+</p></div><div id="afa7eaf3-0ef5-407b-b5d3-98a86f081525" style="width:50%" class="column"><figure id="1a6fb4c6-d846-4d6e-8d8b-7d4b2c2f6e04" class="image"><a href="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25886.43.13.png"><img style="width:2060px" src="Project%204%20Cloth%20Sim%209ff8baf08cb748e19cbbcf5bed80f6e7/%25E6%2588%25AA%25E5%25B1%258F2023-04-11_%25E4%25B8%258B%25E5%258D%25886.43.13.png"/></a></figure><p id="964a0b86-5c71-4944-9738-7a0ba987d4fd" class="">
+</p></div></div></div></article></body></html>
