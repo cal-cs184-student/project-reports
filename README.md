@@ -8,5 +8,6 @@ This is the repository for the CS184 project reports. CS 184 is a course on comp
 - [Project 3-1: Pathtracer](https://cs184.eecs.berkeley.edu/sp23/docs/proj3-1)
 - [Project 3-2: Pathtracer Additional Features](https://cs184.eecs.berkeley.edu/sp23/docs/proj3-2)
 - [Project 4: Cloth Sim](https://cs184.eecs.berkeley.edu/sp23/docs/proj4)
+- [Final Project: SmokeSkulpter](https://www.nociza.com/SmokeSculpter/)
 
 
